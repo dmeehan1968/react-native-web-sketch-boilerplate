@@ -10,13 +10,20 @@
     "react": "^16.0.0",
     "react-dom": "^16.2.0",
     "react-native": "^0.51.0",
-    "react-native-web": "^0.3.2"
+    "react-native-web": "^0.3.2",
+    "react-sketchapp": "^1.0.0"
   },
   "devDependencies": {
+    "@skpm/builder": "^0.3.1",
     "babel-loader": "^7.1.2",
     "babel-plugin-react-native-web": "^0.3.1",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-function-bind": "^6.22.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
     "html-webpack-plugin": "^2.30.1",
+    "prop-types": "^15.6.0",
     "react-native-scripts": "^1.9.0",
+    "react-test-renderer": "^16.2.0",
     "webpack": "^3.10.0",
     "webpack-dev-server": "^2.11.0"
   },
@@ -25,7 +32,15 @@
     "native:eject": "react-native-scripts eject",
     "android": "react-native-scripts android",
     "ios": "react-native-scripts ios",
+    "sketch": "skpm-build --watch --run",
+    "sketch:build": "skpm-build",
+    "sketch:watch": "skpm-build --watch",
+    "sketch:render:once": "skpm-build --run",
     "web": "webpack-dev-server --config ./web/webpack.config.js --open",
     "web:build": "webpack --config ./web/webpack.config.js"
+  },
+  "skpm": {
+    "main": "react-native-web-sketch-boilerplate.sketchplugin",
+    "manifest": "sketch/manifest.json"
   }
 }
