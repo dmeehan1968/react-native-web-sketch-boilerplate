@@ -1,13 +1,21 @@
 {
   "name": "react-native-web-sketch-boilerplate",
+  "author": "",
+  "license": "ISC",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
-  "dependencies": {},
-  "devDependencies": {},
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "main": "./node_modules/react-native-scripts/build/bin/crna-entry.js",
+  "dependencies": {
+    "expo": "^24.0.2",
+    "react-native": "^0.51.0"
   },
-  "author": "",
-  "license": "ISC"
+  "devDependencies": {
+    "react-native-scripts": "^1.9.0"
+  },
+  "scripts": {
+    "native:start": "react-native-scripts start",
+    "native:eject": "react-native-scripts eject",
+    "android": "react-native-scripts android",
+    "ios": "react-native-scripts ios"
+  }
 }
