@@ -1,3 +1,6 @@
+
+// https://github.com/necolas/react-native-web/blob/master/website/guides/getting-started.md
+
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin')
