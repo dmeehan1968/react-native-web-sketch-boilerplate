@@ -2,7 +2,6 @@
   "presets": ["env", "react", "react-native"],
   "env": {
     "test:web": {
-      // react-native-web required to direct jest down the web path
       "plugins": ["react-native-web"]
     }
   }
