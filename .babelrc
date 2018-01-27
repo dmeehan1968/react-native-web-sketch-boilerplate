@@ -1,5 +1,8 @@
 {
   "presets": ["env", "react", "react-native"],
+  "plugins": [
+    "transform-function-bind"
+  ],
   "env": {
     "test:web": {
       "plugins": ["react-native-web"]

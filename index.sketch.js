@@ -3,6 +3,7 @@ import { render, Artboard, StyleSheet, View, Text } from 'react-sketchapp'
 import PropTypes from 'prop-types'
 
 import HelloWorld from './src/components/HelloWorld'
+import { LockScreen } from './src/components/LockScreen'
 
 class Document extends React.Component {
 
@@ -71,8 +72,11 @@ export default () => {
 
   render((
     <Document>
-      <Device name="iPhone SE" width={300} height={568}>
+      {/* <Device name="iPhone SE" width={300} height={568}>
         <HelloWorld />
+      </Device> */}
+      <Device name="iPhone SE" width={300} height={568}>
+        <LockScreen message="My Message" onUnlock={() => {}}/>
       </Device>
     </Document>
   ), context.document.currentPage())
