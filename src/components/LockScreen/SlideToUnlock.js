@@ -3,6 +3,8 @@ import { Text, View, StyleSheet, PanResponder, Animated } from 'react-native'
 import PropTypes from 'prop-types'
 import chroma from 'chroma-js'
 
+import Slider from './Slider'
+
 export default class SlideToUnlock extends React.Component {
 
   static defaultProps = {
@@ -17,30 +19,10 @@ export default class SlideToUnlock extends React.Component {
   static propTypes = {
     buttonHeight: PropTypes.number,
     onSlide: PropTypes.func,
-  }
-
-  get styles() {
-    return this._styles || (this._styles = StyleSheet.create({
-      slider: {
-        width: '80%',
-        height: this.props.buttonHeight,
-        borderRadius: this.props.buttonHeight,
-        backgroundColor: this.props.fromColor,
-        alignItems: 'center',
-        justifyContent: 'center',
-      },
-      button: {
-        width: this.props.buttonHeight,
-        height: this.props.buttonHeight,
-        left: 0,
-        position: 'absolute',
-        borderRadius: this.props.buttonHeight,
-        backgroundColor: this.props.buttonColor,
-      },
-      text: {
-        color: this.props.textColor,
-      }
-    }))
+    style: PropTypes.oneOfType([
+      PropTypes.number,
+      PropTypes.object,
+    ]),
   }
 
   constructor(props) {
@@ -86,28 +68,26 @@ export default class SlideToUnlock extends React.Component {
   }
 
   render() {
-    const buttonStyle = {
-      left: this.state.left || 0,
-      backgroundColor: this.state.active ? this.props.buttonColor : this.props.buttonActiveColor
-    }
-    const scale = chroma.scale([this.props.fromColor, this.props.toColor]).mode('lab')
-    const sliderStyle = {
-      backgroundColor: scale(this.state.index).hex()
-    }
+
+    const sliderColorScale = chroma.scale([this.props.fromColor, this.props.toColor]).mode('lab')
 
     return (
       <View
-        name="Slider"
-        style={[this.styles.slider, sliderStyle]}
+        name="SlideToUnlock"
+        style={this.props.style}
         {...this._panResponder.panHandlers}
-        onLayout={::this.onLayout}
       >
-        <Text style={this.styles.text}>Slide to Unlock</Text>
-        <View
-          name="Button"
-          style={[this.styles.button, buttonStyle]}
-        ></View>
+        <Slider
+          left={this.state.left}
+          buttonHeight={this.props.buttonHeight}
+          buttonColor={this.state.active ? this.props.buttonColor : this.props.buttonActiveColor}
+          sliderColor={sliderColorScale(this.state.index).hex()}
+          textColor={this.props.textColor}
+          onLayout={::this.onLayout}
+          message="Slide to Unlock >>>"
+        />
       </View>
     )
+
   }
 }

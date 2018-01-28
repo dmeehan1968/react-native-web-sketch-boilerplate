@@ -14,6 +14,7 @@ export default class LockScreen extends React.Component {
     styles: PropTypes.shape({
       lockscreen: PropTypes.object,
       clock: PropTypes.object,
+      overlay: PropTypes.object,
       slider: PropTypes.object,
     }),
   }
@@ -22,6 +23,7 @@ export default class LockScreen extends React.Component {
     styles: {
       lockscreen: {},
       clock: {},
+      overlay: {},
       slider: {}
     }
   }
@@ -43,6 +45,10 @@ export default class LockScreen extends React.Component {
         },
         overlay: {
           ...this.props.styles.overlay
+        },
+        slider: {
+          width: '80%',
+          ...this.props.styles.slider
         }
       }
     ))
@@ -56,7 +62,7 @@ export default class LockScreen extends React.Component {
         />
         {this.props.message ? <Overlay message={this.props.message} style={this.styles.overlay} /> : null}
         <SlideToUnlock
-          styles={this.props.styles.slider}
+          style={this.styles.slider}
           onSlide={this.props.onUnlock}
           buttonHeight={50}
         />
