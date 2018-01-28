@@ -1,7 +1,6 @@
 import React from 'react'
-import { Text, View, StyleSheet, PanResponder, Animated } from 'react-native'
+import { Text, View, StyleSheet, Animated } from 'react-native'
 import PropTypes from 'prop-types'
-import chroma from 'chroma-js'
 
 import Slider from './Slider'
 
@@ -10,15 +9,16 @@ export default class SlideToUnlock extends React.Component {
   static defaultProps = {
     buttonHeight: 50,
     fromColor: '#eee',
-    toColor: '#333',
+    toColor: '#e00',
     buttonColor: '#aaa',
     buttonActiveColor: 'red',
-    textColor: '#aaa'
+    textColor: '#aaa',
+    onUnlock: () => {}
   }
 
   static propTypes = {
     buttonHeight: PropTypes.number,
-    onSlide: PropTypes.func,
+    onUnlock: PropTypes.func,
     style: PropTypes.oneOfType([
       PropTypes.number,
       PropTypes.object,
@@ -34,57 +34,26 @@ export default class SlideToUnlock extends React.Component {
     }
   }
 
-  onLayout(e) {
-    this.setState({ right: e.nativeEvent.layout.width - this.props.buttonHeight })
-  }
-
-  componentWillMount() {
-
-    this._panResponder = PanResponder.create({
-      onStartShouldSetPanResponderCapture: (e, gestureState) => {
-        e.preventDefault()
-        const x = e.nativeEvent.locationX
-        if (x < (this.state.left + this.props.buttonHeight)) {
-          return true
-        }
-        return false
-      },
-      onPanResponderGrant: (e, gestureState) => {
-        this.setState({ active: true, base: this.state.left })
-      },
-      onPanResponderMove: (e, gestureState) => {
-        const { dx } = gestureState
-        const left = Math.min(Math.max(0, this.state.base + dx), this.state.right)
-        const index = left / this.state.right
-        this.setState({ left, index })
-        if (index === 1 && typeof this.props.onSlide === 'function') {
-          this.props.onSlide()
-        }
-      },
-      onPanResponderRelease: (e, { vx, vy }) => {
-        this.setState({ active: false })
-      }
-    })
-  }
-
   render() {
-
-    const sliderColorScale = chroma.scale([this.props.fromColor, this.props.toColor]).mode('lab')
 
     return (
       <View
         name="SlideToUnlock"
         style={this.props.style}
-        {...this._panResponder.panHandlers}
       >
         <Slider
           left={this.state.left}
           buttonHeight={this.props.buttonHeight}
           buttonColor={this.state.active ? this.props.buttonColor : this.props.buttonActiveColor}
-          sliderColor={sliderColorScale(this.state.index).hex()}
+          sliderFromColor={this.props.fromColor}
+          sliderToColor={this.props.toColor}
           textColor={this.props.textColor}
-          onLayout={::this.onLayout}
           message="Slide to Unlock >>>"
+          onSlide={distance => {
+            if (distance >= 1) {
+              this.props.onUnlock()
+            }
+          }}
         />
       </View>
     )

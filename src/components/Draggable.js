@@ -10,19 +10,28 @@ export default class Draggable extends React.Component {
     onSpringEnd: PropTypes.func.isRequired,
     springBack: PropTypes.bool.isRequired,
     springSettings: PropTypes.object.isRequired,
+    constrainX: PropTypes.func.isRequired,
+    constrainY: PropTypes.func.isRequired,
+    onLayout: PropTypes.func.isRequired,
+    onValueChange: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
+    name: 'Draggable',
     onDragStart: () => {},
     onDragEnd: () => {},
     onSpringEnd: () => {},
     springBack: false,
-    springSettings: {}
+    springSettings: {},
+    constrainX: x => x,
+    constrainY: y => y,
+    onLayout: () => {},
+    onValueChange: () => {}
   }
 
   constructor(props) {
     super(props)
-    this.animatedValue = new Animated.ValueXY()
+    this.animatedValue = this.props.animatedValue || new Animated.ValueXY()
   }
 
   componentWillMount() {
@@ -40,8 +49,20 @@ export default class Draggable extends React.Component {
         this.animatedValue.setValue({ x: 0, y: 0})
       },
       onPanResponderMove: Animated.event([
-        null, { dx: this.animatedValue.x, dy: this.animatedValue.y }
-      ]),
+        null, {
+          dx: this.animatedValue.x,
+          dy: this.animatedValue.y
+        }
+      ], {
+        listener: () => {
+          const old = { x: this.animatedValue.x._value, y: this.animatedValue.y._value }
+          this.props.constrainY(this.animatedValue.y)
+          this.props.constrainX(this.animatedValue.x)
+          if (old.x !== this.animatedValue.x._value || old.y !== this.animatedValue.y._value) {
+            this.props.onValueChange(this.animatedValue)
+          }
+        }
+      }),
       onPanResponderRelease: (e, gestureState) => {
         this.props.onDragEnd()
         this.animatedValue.flattenOffset()
@@ -50,19 +71,22 @@ export default class Draggable extends React.Component {
             toValue: 0,
             ...this.props.springSettings
           }).start(this.props.onSpringEnd)
-          console.log(this.props.springDuration)
         }
       }
     })
   }
 
   render() {
+    const { name, style, children, onLayout } = this.props
+
     return (
       <Animated.View
-        style={{ transform: this.animatedValue.getTranslateTransform() }}
+        name={name}
+        onLayout={onLayout}
+        style={[style, { transform: this.animatedValue.getTranslateTransform() }]}
         {...this._panResponder.panHandlers}
       >
-        {this.props.children}
+        {children}
       </Animated.View>
     )
   }
