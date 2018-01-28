@@ -76,7 +76,9 @@ export default () => {
         <HelloWorld />
       </Device> */}
       <Device name="iPhone SE" width={300} height={568}>
-        <LockScreen message="My Message" onUnlock={() => {}}/>
+        <LockScreen
+          message="This is a sample user message.  It will change to 'unlocked' when the slider is moved all the way to the right."
+        />
       </Device>
     </Document>
   ), context.document.currentPage())

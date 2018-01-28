@@ -31,7 +31,7 @@ export default class LockScreen extends React.Component {
 
   constructor(props) {
     super(props)
-    this.state = { message: this.props.message }
+    this.state = { locked: true }
   }
 
   get styles() {
@@ -50,6 +50,7 @@ export default class LockScreen extends React.Component {
           ...this.props.styles.clock
         },
         overlay: {
+          textAlign: 'center',
           ...this.props.styles.overlay
         },
         slider: {
@@ -66,10 +67,15 @@ export default class LockScreen extends React.Component {
         <Clock
           style={this.styles.clock}
         />
-        {this.props.message ? <Overlay message={this.state.message} style={this.styles.overlay} /> : null}
+        {this.props.message ? <Overlay message={this.props.message} style={this.styles.overlay} /> : null}
         <SlideToUnlock
           style={this.styles.slider}
-          onUnlock={this.props.onUnlock}
+          onUnlock={() => {
+            if (this.state.locked) {
+              this.props.onUnlock()
+              this.setState({ locked: false })
+            }
+          }}
           buttonHeight={50}
         />
       </View>
