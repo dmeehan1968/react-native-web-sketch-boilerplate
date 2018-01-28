@@ -9,7 +9,7 @@ export default class Draggable extends React.Component {
     onDragEnd: PropTypes.func.isRequired,
     onSpringEnd: PropTypes.func.isRequired,
     springBack: PropTypes.bool.isRequired,
-    springSpeed: PropTypes.number.isRequired,
+    springSettings: PropTypes.object.isRequired,
   }
 
   static defaultProps = {
@@ -17,7 +17,7 @@ export default class Draggable extends React.Component {
     onDragEnd: () => {},
     onSpringEnd: () => {},
     springBack: false,
-    springSpeed: 12
+    springSettings: {}
   }
 
   constructor(props) {
@@ -48,7 +48,7 @@ export default class Draggable extends React.Component {
         if (this.props.springBack) {
           Animated.spring(this.animatedValue, {
             toValue: 0,
-            speed: this.props.springSpeed
+            ...this.props.springSettings
           }).start(this.props.onSpringEnd)
           console.log(this.props.springDuration)
         }

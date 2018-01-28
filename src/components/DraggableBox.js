@@ -8,7 +8,8 @@ export default class DraggableBox extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      dragging: false
+      message: 'Drag Me',
+      color: 'black'
     }
   }
 
@@ -16,22 +17,22 @@ export default class DraggableBox extends React.Component {
     return (
       <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
         <Draggable
-          onDragStart={() => this.setState({dragging: true})}
-          onDragEnd={() => this.setState({dragging: false, springing: true})}
-          onSpringEnd={() => this.setState({ springing: false })}
+          onDragStart={() => this.setState({ message: 'Drop Me', color: 'blue' })}
+          onDragEnd={() => this.setState({ message: 'Weeee!!', color: 'red' })}
+          onSpringEnd={() => this.setState({ message: 'Drag Me', color: 'black' })}
           springBack={true}
-          springSpeed={1}
+          springSettings={{ speed: 12 }}
         >
           <Box
             style={{
               height: 100,
               width: 100,
-              backgroundColor: this.state.dragging ? 'blue' : 'black',
+              backgroundColor: this.state.color,
               justifyContent: 'center',
               alignItems: 'center'
             }}
           >
-            <Text style={{ color: 'white' }}>{this.state.dragging ? (this.state.springing ? "Weeeeee" : "Drop Me") : "Drag Me"}</Text>
+            <Text style={{ color: 'white' }}>{this.state.message}</Text>
           </Box>
         </Draggable>
       </View>
