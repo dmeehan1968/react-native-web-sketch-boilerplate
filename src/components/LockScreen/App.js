@@ -1,7 +1,7 @@
 import React from 'react'
 import { LockScreen } from './LockScreen'
 
-export default class LockScreenContainer extends React.Component {
+export default class LockScreenApp extends React.Component {
 
   constructor(props) {
     super(props)

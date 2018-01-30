@@ -2,7 +2,7 @@
   "expo": {
     "sdkVersion": "24.0.0",
     "entryPoint": "./index.js",
-    "name": "App",
-    "appKey": "App"
+    "name": "Todo",
+    "appKey": "Todo"
   }
 }

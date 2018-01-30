@@ -1,19 +1,18 @@
 import React from 'react'
 import { View, AppRegistry } from 'react-native'
 
-import App from './src/components/App'
+import Todo from './src/components/Todo/App'
 import HelloWorld from './src/components/HelloWorld'
-import { LockScreen } from './src/components/LockScreen'
 import DraggableBox from './src/components/DraggableBox'
-import LockScreenContainer from './src/components/LockScreenContainer'
+import LockScreen from './src/components/LockScreen/App'
 
-AppRegistry.registerComponent('App', () => App)
+AppRegistry.registerComponent('Todo', () => Todo)
 AppRegistry.registerComponent('HelloWorld', () => HelloWorld)
 AppRegistry.registerComponent('LockScreen', () => LockScreenContainer)
 AppRegistry.registerComponent('DraggableBox', () => DraggableBox)
 
 if (window.document) {
-  AppRegistry.runApplication('App', {
+  AppRegistry.runApplication('Todo', {
     initialProps: {},
     rootTag: document.getElementById('app')
   });
