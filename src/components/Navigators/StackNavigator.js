@@ -38,7 +38,6 @@ export default class StackNavigator extends React.Component {
   }
 
   navigate(name, props) {
-    console.log(`>>> ${name}`)
     this.setState({
       stack: [
         ...this.state.stack,
@@ -48,7 +47,6 @@ export default class StackNavigator extends React.Component {
   }
 
   pop() {
-    console.log('<<<')
     this.setState({
       stack: this.state.stack.slice(0, -1)
     })
