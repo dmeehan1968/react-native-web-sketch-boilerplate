@@ -1,6 +1,6 @@
 import React from 'react'
 import { SafeAreaView, TouchableOpacity, Text } from 'react-native'
-import StackNavigator from '../Navigators/StackNavigator'
+import { StackNavigator } from '../Navigators'
 
 import FlatList from '../Todo/FlatList'
 import DraggableBox from '../DraggableBox'
@@ -8,36 +8,7 @@ import HelloWorld from '../HelloWorld'
 import LockScreenApp from '../LockScreen'
 import TodoList from '../Todo/TodoList'
 import TodoDetail from '../Todo/TodoDetail'
-
-const DemoList = ({data, onItemPress}) => (
-  <FlatList
-    data={data}
-    renderItem={({item}) => (
-      <DemoItem
-        {...item}
-        onPress={() => onItemPress(item)}
-      />
-    )}
-  />
-)
-
-const DemoItem = ({title, onPress}) => (
-  <TouchableOpacity
-    onPress={onPress}
-    style={{
-      width: '100%',
-      height: 40,
-      borderStyle: 'solid',
-      borderBottomColor: '#eee',
-      borderBottomWidth: 1,
-      justifyContent: 'center',
-      padding: 10
-    }}>
-    <Text>
-      {title}
-    </Text>
-  </TouchableOpacity>
-)
+import DemoList from './DemoList'
 
 export default () => (
   <SafeAreaView
