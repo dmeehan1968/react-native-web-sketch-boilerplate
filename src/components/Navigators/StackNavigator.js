@@ -12,9 +12,9 @@ export default class StackNavigator extends React.Component {
     }
   }
 
-  getScreen(name, otherProps = {}) {
-    const config = this.props.config[name]
-    const { component: Component, props = {}, handlers = {} } = config
+  getView(name, otherProps = {}) {
+    const view = this.props.views[name]
+    const { component: Component, props = {}, handlers = {} } = view
     const navHandlers = {}
     const navigator = {
       navigate: ::this.navigate
@@ -25,7 +25,7 @@ export default class StackNavigator extends React.Component {
       }
     })
     return {
-      config: config,
+      view: view,
       props: { ...props, ...otherProps },
       element: (
         <Component
@@ -42,7 +42,7 @@ export default class StackNavigator extends React.Component {
     this.setState({
       stack: [
         ...this.state.stack,
-        this.getScreen(name, props)
+        this.getView(name, props)
       ]
     })
   }
@@ -59,15 +59,15 @@ export default class StackNavigator extends React.Component {
   }
 
   render() {
-    const {config, element, props} = this.state.stack.slice(-1).pop()
+    const {view, element, props} = this.state.stack.slice(-1).pop()
     const back = this.state.stack.length > 1
 
     return (
       <View style={this.props.style}>
         <NavBar
           backLabel={back ? "<" : null }
-          title={typeof config.title === 'function' && config.title(props) || config.title || "--No Title--"}
-          onBack={config.onBack && config.onBack || ::this.pop}
+          title={typeof view.title === 'function' && view.title(props) || view.title || "--No Title--"}
+          onBack={view.onBack && view.onBack || ::this.pop}
         />
         {element}
       </View>
