@@ -14,7 +14,7 @@ export default ({title, backLabel, actionLabel, onBack, style}) => (
       <Text
         name="backLabel"
         style={{
-          fontSize: 30,
+          fontSize: 24,
           width: 75,
           paddingLeft: 10,
           color: 'blue'

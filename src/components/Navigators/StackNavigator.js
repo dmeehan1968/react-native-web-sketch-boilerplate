@@ -17,7 +17,8 @@ export default class StackNavigator extends React.Component {
     const { component: Component, props = {}, handlers = {} } = view
     const navHandlers = {}
     const navigator = {
-      navigate: ::this.navigate
+      navigate: ::this.navigate,
+      ...this.props.navigator
     }
     Object.getOwnPropertyNames(handlers).forEach(name => {
       navHandlers[name] = (...args) => {
@@ -37,10 +38,10 @@ export default class StackNavigator extends React.Component {
     }
   }
 
-  navigate(name, props) {
+  navigate(name, props, index) {
     this.setState({
       stack: [
-        ...this.state.stack,
+        ...this.state.stack.slice(0, index),
         this.getView(name, props)
       ]
     })

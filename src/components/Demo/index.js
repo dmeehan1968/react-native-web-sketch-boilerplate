@@ -1,6 +1,6 @@
 import React from 'react'
-import { SafeAreaView, TouchableOpacity, Text } from 'react-native'
-import { StackNavigator } from '../Navigators'
+import { SafeAreaView, TouchableOpacity, Text, View } from 'react-native'
+import { SplitNavigator } from '../Navigators'
 
 import FlatList from '../Todo/FlatList'
 import DraggableBox from '../DraggableBox'
@@ -18,8 +18,9 @@ export default () => (
       alignItems: 'stretch',
     }}
   >
-    <StackNavigator
-      root="DemoList"
+    <SplitNavigator
+      master="DemoList"
+      detail="HelloWorld"
       views={{
         DemoList: {
           component: DemoList,
@@ -54,7 +55,7 @@ export default () => (
         },
         HelloWorld: {
           component: HelloWorld,
-          title: props => props.title,
+          title: props => props.title || 'HelloWorld',
           props: {},
         },
         DraggableBox: {
@@ -91,7 +92,7 @@ export default () => (
               alignItems: 'center',
             },
           },
-        }
+        },
       }}
       style={{
         flex: 1,
