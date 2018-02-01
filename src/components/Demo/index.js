@@ -55,35 +55,17 @@ export default () => (
         HelloWorld: {
           component: HelloWorld,
           title: props => props.title,
-          props: {
-            style: {
-              flex: 1,
-              justifyContent: 'center',
-              alignItems: 'center',
-            },
-          },
+          props: {},
         },
         DraggableBox: {
           component: DraggableBox,
           title: props => props.title,
-          props: {
-            style: {
-              flex: 1,
-              justifyContent: 'center',
-              alignItems: 'center',
-            },
-          },
+          props: {},
         },
         LockScreenApp: {
           component: LockScreenApp,
           title: props => props.title,
-          props: {
-            style: {
-              flex: 1,
-              justifyContent: 'center',
-              alignItems: 'center',
-            },
-          },
+          props: {},
         },
         TodoList: {
           component: TodoList,
@@ -112,7 +94,7 @@ export default () => (
         }
       }}
       style={{
-        flex: 1
+        flex: 1,
       }}
     />
   </SafeAreaView>
