@@ -79,7 +79,6 @@ export default class StackNavigator extends React.Component {
   }
 
   render() {
-    console.log(this.state.stack)
     const { view, element, props } = this.state.stack.slice(-1).pop()
     const { backLabel = ::this.backLabel } = this.props
 

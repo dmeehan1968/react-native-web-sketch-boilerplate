@@ -30,69 +30,95 @@ export default class SplitNavigator extends React.Component {
     })
   }
 
+  renderDrawer() {
+    return (
+      <Drawer
+        ref={ref => this.drawer = ref}
+        minWidth={300}
+        maxWidth={this.state.isSplit ? 500 : this.state.window.width}
+        open={!this.state.isSplit}
+        width={this.state.isSplit ? '33%' : '100%'}
+        style={{
+          paddingRight: this.state.isSplit ? 10 : 0,
+          backgroundColor: 'white'
+        }}
+        animateOnOpen={this.state.isSplit}
+        animateOnClose={this.state.isSplit}
+      >
+        {this.renderMaster()}
+
+      </Drawer>
+    )
+  }
+
+  renderMaster() {
+    return (
+      <StackNavigator
+        name="masterNavigator"
+        ref={ref => this.master = ref}
+        root={this.props.master}
+        views={this.props.views}
+        navigator={{
+          navigate: (name, props) => {
+            this.detail.navigate(name, props, 0)
+            this.drawer && this.drawer.close()
+          }
+        }}
+        style={[
+          {
+            borderRightWidth: 1,
+            borderStyle: 'solid',
+            borderRightColor: '#eee',
+            paddingRight: this.state.isSplit ? 10 : 0,
+            marginRight: this.state.isSplit ? 10 : 0,
+
+            backgroundColor: 'white',
+            height: '100%',
+            width: this.state.isSplit ? '33%' : '100%',
+          },
+        ]}
+      />
+    )
+  }
+
+  renderDetail() {
+    return (
+      <StackNavigator
+        name="detailNavigator"
+        ref={ref => this.detail = ref}
+        root={this.props.detail}
+        views={this.props.views}
+        style={{
+          flex: 1,
+          flexGrow: 1
+        }}
+        backLabel={depth => depth > (this.state.isSplit ? 1 : 0) ? '<' : null}
+        onBack={(next, depth) => {
+          depth == 1 && this.drawer ? this.drawer.open() : next()
+        }}
+      />
+    )
+  }
+
   render() {
 
     return (
-      <View style={[
-        this.props.style,
-        {
-          flex: 1,
-          flexDirection: 'row',
+      <View
+        name="SplitNavigator"
+        style={
+          [
+          this.props.style,
+          {
+            flex: 1,
+            flexDirection: 'row',
+          }
+          ]
         }
-      ]}>
+      >
 
-        <Drawer
-          ref={ref => this.drawer = ref}
-          minWidth={300}
-          maxWidth={this.state.isSplit ? 500 : this.state.window.width}
-          open={!this.state.isSplit}
-          width={this.state.isSplit ? '33%' : '100%'}
-          style={{
-            paddingRight: this.state.isSplit ? 10 : 0,
-            backgroundColor: 'white'
-          }}
-          animateOnOpen={this.state.isSplit}
-          animateOnClose={this.state.isSplit}
-        >
+        {this.state.isSplit ? this.renderMaster() : this.renderDrawer()}
 
-          <StackNavigator
-            name="masterNavigator"
-            ref={ref => this.master = ref}
-            root={this.props.master}
-            views={this.props.views}
-            navigator={{
-              navigate: (name, props) => {
-                this.detail.navigate(name, props, 0)
-                this.drawer.close()
-              }
-            }}
-            style={[
-              {
-                backgroundColor: 'white',
-                // marginRight: 10,
-                // paddingRight: 10,
-                // borderStyle: 'solid',
-                // borderRightColor: '#eee',
-                // borderRightWidth: 1,
-                // width: this.state.masterWidth,
-                height: '100%'
-              },
-            ]}
-          />
-
-        </Drawer>
-
-        <StackNavigator
-          name="detailNavigator"
-          ref={ref => this.detail = ref}
-          root={this.props.detail}
-          views={this.props.views}
-          style={{ flexGrow: 1 }}
-          backLabel={depth => '<'}
-          onBack={(next, depth) => {
-            depth == 1 ? this.drawer.open() : next()
-          }}
-        />
+        {this.renderDetail()}
 
       </View>
     )

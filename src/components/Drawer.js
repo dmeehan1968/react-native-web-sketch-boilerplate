@@ -66,21 +66,28 @@ export default class Drawer extends React.Component {
     this.state = {
       isOpen: this.props.open || false
     }
+    this.onDimensionsChange = ::this.onDimensionsChange
   }
 
   componentWillMount() {
     this.animatedOffsetX = new Animated.Value()
     this.onDimensionsChange({ window: Dimensions.get('window') })
-    Dimensions.addEventListener('change', ::this.onDimensionsChange)
+    Dimensions.addEventListener('change', this.onDimensionsChange)
   }
 
   componentWillUnmount() {
-    Dimensions.removeEventListener('change', ::this.onDimensionsChange)
+    Dimensions.removeEventListener('change', this.onDimensionsChange)
   }
 
   onDimensionsChange({ window }) {
     this.animatedOffsetX.setValue(this.state.isOpen ? 0 : -window.width)
     this.setState({ window })
+  }
+
+  componentWillReceiveProps(newProps) {
+    if (newProps.isOpen != this.state.isOpen) {
+      newProps.isOpen ? this.open() : this.close()
+    }
   }
 
   open() {
@@ -131,7 +138,8 @@ export default class Drawer extends React.Component {
       }
     }
 
-    return Math.min(maxWidth, Math.max(minWidth, result))
+    result = Math.min(maxWidth, Math.max(minWidth, result))
+    return result
   }
 
   render() {
@@ -155,11 +163,6 @@ export default class Drawer extends React.Component {
         <View style={
           [
           {
-            borderRightWidth: 1,
-            borderStyle: 'solid',
-            borderRightColor: '#eee',
-            paddingRight: 10,
-            marginRight: 10,
           },
           this.props.style,
           {
