@@ -25,7 +25,9 @@ export default class StackNavigator extends React.Component {
         return handlers[name](...args, navigator)
       }
     })
+
     return {
+      name: name,
       view: view,
       props: { ...props, ...otherProps },
       element: (
@@ -47,6 +49,18 @@ export default class StackNavigator extends React.Component {
     })
   }
 
+  insertAt(index, name) {
+    const stack = [ ...this.state.stack ]
+    stack.splice(index, 0, this.getView(name))
+    this.setState({ stack })
+  }
+
+  removeAt(index) {
+    const stack = [ ...this.state.stack ]
+    stack.splice(index, 1)
+    this.setState({ stack })
+  }
+
   pop() {
     this.setState({
       stack: this.state.stack.slice(0, -1)
@@ -54,19 +68,31 @@ export default class StackNavigator extends React.Component {
   }
 
   componentWillMount() {
-    this.navigate(this.props.root)
+    const root = Array.isArray(this.props.root) ? this.props.root : [ this.props.root ]
+    this.setState({
+      stack: root.map(view => view && this.getView(view)).filter(view => !!view)
+    })
+  }
+
+  backLabel(depth) {
+    return depth > 1 ? '<' : null
   }
 
   render() {
-    const {view, element, props} = this.state.stack.slice(-1).pop()
-    const back = this.state.stack.length > 1
+    console.log(this.state.stack)
+    const { view, element, props } = this.state.stack.slice(-1).pop()
+    const { backLabel = ::this.backLabel } = this.props
 
     return (
-      <View style={this.props.style}>
+      <View style={this.props.style} name={this.props.name || 'StackNavigator'}>
         <NavBar
-          backLabel={back ? "<" : null }
+          backLabel={backLabel(this.state.stack.length)}
           title={typeof view.title === 'function' && view.title(props) || view.title || "--No Title--"}
-          onBack={view.onBack && view.onBack || ::this.pop}
+          onBack={() => {
+            const next = next => next()
+            const onBack = (this.props.onBack || next).bind(null, (view.onBack || next).bind(null, ::this.pop))
+            onBack(this.state.stack.length)
+          }}
         />
         {element}
       </View>
