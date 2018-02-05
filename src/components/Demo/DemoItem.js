@@ -1,7 +1,7 @@
 import React from 'react'
 import { TouchableOpacity, Text } from 'react-native'
 
-export default ({title, onPress}) => (
+export default ({title, onPress, style}) => (
   <TouchableOpacity
     onPress={onPress}
     style={{
@@ -11,7 +11,8 @@ export default ({title, onPress}) => (
       borderBottomColor: '#eee',
       borderBottomWidth: 1,
       justifyContent: 'center',
-      padding: 10
+      padding: 10,
+      ...style
     }}>
     <Text>
       {title}
