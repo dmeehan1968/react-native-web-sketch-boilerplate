@@ -61,7 +61,7 @@ module.exports = {
 
   // ...the rest of your config
 
-  devtool: 'eval-cheap-module-source-map',
+  devtool: 'eval-source-map',
 
   devServer: {
     contentBase: path.resolve(appDirectory, 'dist')
