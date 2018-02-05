@@ -49,18 +49,6 @@ export default class StackNavigator extends React.Component {
     })
   }
 
-  insertAt(index, name) {
-    const stack = [ ...this.state.stack ]
-    stack.splice(index, 0, this.getView(name))
-    this.setState({ stack })
-  }
-
-  removeAt(index) {
-    const stack = [ ...this.state.stack ]
-    stack.splice(index, 1)
-    this.setState({ stack })
-  }
-
   pop() {
     this.setState({
       stack: this.state.stack.slice(0, -1)
