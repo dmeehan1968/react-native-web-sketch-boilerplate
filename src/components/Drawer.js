@@ -84,12 +84,6 @@ export default class Drawer extends React.Component {
     this.setState({ window })
   }
 
-  componentWillReceiveProps(newProps) {
-    if (newProps.isOpen != this.state.isOpen) {
-      newProps.isOpen ? this.open() : this.close()
-    }
-  }
-
   open() {
     this.setState({ isOpen: true })
     const toValue = 0
