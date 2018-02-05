@@ -7,6 +7,30 @@ import Drawer from '../Drawer'
 
 export default class SplitNavigator extends React.Component {
 
+  static propTypes = {
+    /*
+     * function to determine if the navigator should be in stack mode
+     * (master obscures detail).  Receives an object
+     * containing 'width' and 'height' properties of the current window.
+     *
+     * If omitted, windows less than 500px in width will be in stacked mode
+     */
+    shouldStack: PropTypes.func,
+    /*
+     * function to determine if the navigator should be in split mode
+     * (both master and detail permanently visible).  Receives an object
+     * containing 'width' and 'height' properties of the current window.
+     *
+     * If omitted, windows over 800px in width will be in split mode
+     */
+    shouldSplit: PropTypes.func,
+  }
+
+  static defaultProps = {
+    shouldStack: window => window.width <= 500,
+    shouldSplit: window => window.width >= 800
+  }
+
   constructor(props) {
     super(props)
     this.state = {
@@ -26,7 +50,8 @@ export default class SplitNavigator extends React.Component {
   onDimensionsChange({ window }) {
     this.setState({
       window,
-      isSplit: window.width >= 600
+      isSplit: this.props.shouldSplit(window),
+      isStacked: this.props.shouldStack(window)
     })
   }
 
@@ -35,15 +60,20 @@ export default class SplitNavigator extends React.Component {
       <Drawer
         ref={ref => this.drawer = ref}
         minWidth={300}
-        maxWidth={this.state.isSplit ? 500 : this.state.window.width}
-        open={!this.state.isSplit}
+        maxWidth={this.state.isStacked ? this.state.window.width : 300 }
+        open={this.state.isStacked}
         width={this.state.isSplit ? '33%' : '100%'}
         style={{
           paddingRight: this.state.isSplit ? 10 : 0,
           backgroundColor: 'white'
         }}
-        animateOnOpen={this.state.isSplit}
-        animateOnClose={this.state.isSplit}
+        animateOnOpen={!this.state.isStacked}
+        animateOnClose={!this.state.isStacked}
+        animationOptionsOnClose={{
+          delay: 250,
+          bounciness: undefined,
+          mass: 30
+        }}
       >
         {this.renderMaster()}
 
