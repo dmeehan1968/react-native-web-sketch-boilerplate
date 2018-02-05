@@ -3,7 +3,23 @@ import React from 'react'
 import FlatList from '../Todo/FlatList'
 import DemoItem from './DemoItem'
 
-export default class DemoList extends React.Component {
+const DemoList = ({data, extraData, onItemPress, isItemSelected}) => (
+  <FlatList
+    data={data}
+    extraData={extraData}
+    renderItem={({item}) => (
+      <DemoItem
+        {...item}
+        style={{
+          backgroundColor: isItemSelected(item) ? '#aaa' : 'transparent'
+        }}
+        onPress={() => onItemPress(item)}
+      />
+    )}
+  />
+)
+
+export default class SelectableDemoList extends React.Component {
 
   constructor(props) {
     super(props)
@@ -15,21 +31,14 @@ export default class DemoList extends React.Component {
   render() {
     const {data, onItemPress} = this.props
     return (
-      <FlatList
+      <DemoList
         data={data}
         extraData={this.state}
-        renderItem={({item}) => (
-          <DemoItem
-            {...item}
-            style={{
-              backgroundColor: item === this.state.selected ? '#aaa' : 'transparent'
-            }}
-            onPress={() => {
-              this.setState({ selected: item })
-              onItemPress(item)
-            }}
-          />
-        )}
+        isItemSelected={item => item === this.state.selected}
+        onItemPress={item => {
+          this.setState({selected: item})
+          onItemPress(item)
+        }}
       />
     )
   }
