@@ -24,8 +24,12 @@ export default class SelectableDemoList extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      selected: null
+      selected: this.props.selected
     }
+  }
+
+  componentWillReceiveProps(newProps) {
+    this.setState({ selected: newProps.selected })
   }
 
   render() {
@@ -34,7 +38,9 @@ export default class SelectableDemoList extends React.Component {
       <DemoList
         data={data}
         extraData={this.state}
-        isItemSelected={item => item === this.state.selected}
+        isItemSelected={item => {
+          return this.state.selected && item.key === this.state.selected.key
+        }}
         onItemPress={item => {
           this.setState({selected: item})
           onItemPress(item)
