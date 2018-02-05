@@ -72,7 +72,7 @@ class DemoApp extends React.Component {
               component: DemoList,
               title: "Demos",
               props: {
-                selected: this.props.selected,
+                selected: this.props.selected || { key: 0 },
                 data: [
                 {
                   key: 0,
