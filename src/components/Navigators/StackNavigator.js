@@ -29,8 +29,8 @@ export default class StackNavigator extends React.Component {
     return {
       name: name,
       view: view,
-      props: { ...props, ...otherProps },
-      element: (
+      props: { ...props, ...otherProps, ...navHandlers },
+      renderElement: () => (
         <Component
           {...props}
           {...otherProps}
@@ -41,24 +41,40 @@ export default class StackNavigator extends React.Component {
   }
 
   navigate(name, props, index) {
-    this.setState({
-      stack: [
-        ...this.state.stack.slice(0, index),
-        this.getView(name, props)
-      ]
+    this.setState(state => {
+      return {
+        stack: [
+          ...state.stack.slice(0, index),
+          this.getView(name, props)
+        ]
+      }
     })
   }
 
   pop() {
-    this.setState({
-      stack: this.state.stack.slice(0, -1)
+    this.setState(state => {
+      return {
+        stack: this.state.stack.slice(0, -1)
+      }
     })
   }
 
   componentWillMount() {
     const root = Array.isArray(this.props.root) ? this.props.root : [ this.props.root ]
-    this.setState({
-      stack: root.map(view => view && this.getView(view)).filter(view => !!view)
+    this.setState(state => {
+      return {
+        stack: root.map(view => view && this.getView(view)).filter(view => !!view)
+      }
+    })
+  }
+
+  componentWillReceiveProps(newProps) {
+    this.setState(state => {
+      return {
+        stack: state.stack.map(view => {
+          return this.getView(view.name, { ...view.props, ...newProps.views[view.name].props })
+        })
+      }
     })
   }
 
@@ -67,7 +83,7 @@ export default class StackNavigator extends React.Component {
   }
 
   render() {
-    const { view, element, props } = this.state.stack.slice(-1).pop()
+    const { view, renderElement, props } = this.state.stack.slice(-1).pop()
     const { backLabel = ::this.backLabel } = this.props
 
     return (
@@ -81,7 +97,7 @@ export default class StackNavigator extends React.Component {
             onBack(this.state.stack.length)
           }}
         />
-        {element}
+        {renderElement()}
       </View>
     )
   }
