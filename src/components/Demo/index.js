@@ -44,10 +44,16 @@ class DemoApp extends React.Component {
      * currently selected item from data
      */
     selected: PropTypes.object,
+    /*
+     * handler for navigator changing mode, receives mode and newMode as
+     * arguments
+     */
+    onModeChange: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
-    onDemoItemPress: (demo, navigator, props, next) => { next(demo, navigator, props) }
+    onDemoItemPress: (demo, navigator, props, next) => { next(demo, navigator, props) },
+    onModeChange: () => {}
   }
 
   onDemoItemPress(demo, navigator, props) {
@@ -55,6 +61,7 @@ class DemoApp extends React.Component {
   }
 
   render() {
+    const selected = this.props.selected || (this.navigator && !this.navigator.isStacked ? { key: 0 } : null)
     return (
       <SafeAreaView
         style={{
@@ -65,14 +72,16 @@ class DemoApp extends React.Component {
       >
 
         <SplitNavigator
+          ref={ref => this.navigator = ref}
           master="DemoList"
           detail="HelloWorld"
+          onModeChange={this.props.onModeChange}
           views={{
             DemoList: {
               component: DemoList,
               title: "Demos",
               props: {
-                selected: this.props.selected || { key: 0 },
+                selected: selected,
                 data: [
                 {
                   key: 0,
@@ -179,14 +188,18 @@ export default class StatefulDemoApp extends React.Component {
 
   constructor(props) {
     super(props)
-    this.state = {
-      selected: null
-    }
+    this.state = {}
   }
 
   onDemoItemPress(demo, navigator, props, next) {
-    this.setState({ selected: demo })
+    this.setState(() => ({ selected: demo }))
     next(demo, navigator, props)
+  }
+
+  onModeChange(mode, newMode) {
+    if (mode === SplitNavigator.DisplayMode.Initial || newMode === SplitNavigator.DisplayMode.Stacked) {
+      this.setState(() => ({ selected: null }))
+    }
   }
 
   render() {
@@ -194,6 +207,7 @@ export default class StatefulDemoApp extends React.Component {
       <DemoApp
         onDemoItemPress={::this.onDemoItemPress}
         selected={this.state.selected}
+        onModeChange={::this.onModeChange}
       />
     )
   }

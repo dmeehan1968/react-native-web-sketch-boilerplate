@@ -56,10 +56,16 @@ export default class SplitNavigator extends React.Component {
 
   onDimensionsChange({ window }) {
     this.setState(state => {
-      return {
+      const newState = {
         window,
         displayMode: this.getDisplayModeForWindow(window)
       }
+
+      if (state.displayMode !== newState.displayMode) {
+        this.props.onModeChange(state.displayMode, newState.displayMode)
+      }
+
+      return newState
     })
   }
 
@@ -163,7 +169,6 @@ export default class SplitNavigator extends React.Component {
   }
 
   render() {
-console.log(this.state.displayMode, this.state.window.width)
     return (
       <View
         name="SplitNavigator"
