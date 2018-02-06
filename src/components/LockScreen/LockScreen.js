@@ -9,12 +9,33 @@ import Overlay from './Overlay'
 export default class LockScreen extends React.Component {
 
   static propTypes = {
+    /*
+     * Optional text message to display in the center of the lockscreen
+     */
     message: PropTypes.string,
+    /*
+     * Function handler for when unlock occurs
+     */
     onUnlock: PropTypes.func,
+    /*
+     * Additionl styles to apply to each sub component
+     */
     styles: PropTypes.shape({
+      /*
+       * Styles for the lockscreen container
+       */
       lockscreen: PropTypes.object,
+      /*
+       * Styles for the clock
+       */
       clock: PropTypes.object,
+      /*
+       * Styles for the text overlay
+       */
       overlay: PropTypes.object,
+      /*
+       * Styles for the slider
+       */
       slider: PropTypes.object,
     }),
   }
