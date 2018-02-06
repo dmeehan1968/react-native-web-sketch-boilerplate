@@ -1,7 +1,18 @@
 import React from 'react'
 import { Text, View, StyleSheet, Platform } from 'react-native'
+import PropTypes from 'prop-types'
 
 export default class Clock extends React.Component {
+
+  static propTypes = {
+    /*
+     * Additional style to apply to the component
+     */
+    style: PropTypes.oneOfType([
+      PropTypes.object,
+      PropTypes.number,
+    ]),
+  }
 
   componentWillMount() {
     this.setState({
