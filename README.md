@@ -28,30 +28,53 @@ rest/spread (...) and function bind (::).  Babel is used to transpile.
 The following scripts are provided:
 
 * ```npm run ios```
+
   Build app and start the iOS Simulator using the Expo app.  Will watch for
   code changes and reload when needed
+  
 * ```npm run android```
+
   Build app and start the Android Simulator using the Expo app.  Will watch for
   code changes and reload when needed (untested)
+  
 * ```npm run web```
+
   Build app and run in browser using Webpack Dev Server and Hot Module
   Reloading
+  
 * ```npm run sketch```
+
   Build and run app in Sketchapp (MacOS Only), watch for changes and reload
   when needed
+  
 * ```npm run test:web```
+
   Run tests for web and common components
+  
 * ```npm run test:native```
+
   Run tests for native and common components
+  
 * ```npm run native:start```
+
   Start the React Native packager only
+  
 * ```npm run native:eject```
+
   Eject the React Native project
+  
 * ```npm run sketch:build```
+
   Build only for Sketch target
+  
 * ```npm run sketch:watch```
+
   Same as ```sketch```
+  
 * ```npm run sketch:render:once```
+
   Builds for Sketch and renders once, doesn't watch.
+  
 * ```npm run web:build```
+
   Build only for webpack
