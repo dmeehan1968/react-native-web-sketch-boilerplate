@@ -17,8 +17,17 @@ export default class SlideToUnlock extends React.Component {
   }
 
   static propTypes = {
+    /*
+     * height of the slider button in pixels
+     */
     buttonHeight: PropTypes.number,
+    /*
+     * Function to handle when the unlock occurs
+     */
     onUnlock: PropTypes.func,
+    /*
+     * Additional styles to apply to the SlideToUnlock
+     */
     style: PropTypes.oneOfType([
       PropTypes.number,
       PropTypes.object,
