@@ -31,10 +31,19 @@ export default class SplitNavigator extends React.Component {
     shouldSplit: window => window.width >= 800
   }
 
+  static DisplayMode = Object.freeze({
+    Initial: 'Initial',
+    Stacked: 'Stacked',
+    Drawer: 'Drawer',
+    Split: 'Split'
+  })
+
   constructor(props) {
     super(props)
     this.state = {
-      isSplit: false
+      isSplit: false,
+      isStacked: false,
+      displayMode: SplitNavigator.DisplayMode.Initial
     }
   }
 
@@ -48,11 +57,26 @@ export default class SplitNavigator extends React.Component {
   }
 
   onDimensionsChange({ window }) {
-    this.setState({
-      window,
-      isSplit: this.props.shouldSplit(window),
-      isStacked: this.props.shouldStack(window)
+    this.setState(state => {
+      return {
+        window,
+        isSplit: this.props.shouldSplit(window),
+        isStacked: this.props.shouldStack(window),
+        displayMode: this.getDisplayModeForWindow(window)
+      }
     })
+  }
+
+  getDisplayModeForWindow(window) {
+    if (this.props.shouldStack(window)) {
+      return SplitNavigator.DisplayMode.Stacked
+    }
+
+    if (this.props.shouldSplit(window)) {
+      return SplitNavigator.DisplayMode.Split
+    }
+
+    return SplitNavigator.DisplayMode.Drawer
   }
 
   renderDrawer() {
@@ -131,7 +155,7 @@ export default class SplitNavigator extends React.Component {
   }
 
   render() {
-
+console.log(this.state.displayMode, this.state.window.width)
     return (
       <View
         name="SplitNavigator"
