@@ -41,8 +41,6 @@ export default class SplitNavigator extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      isSplit: false,
-      isStacked: false,
       displayMode: SplitNavigator.DisplayMode.Initial
     }
   }
@@ -60,8 +58,6 @@ export default class SplitNavigator extends React.Component {
     this.setState(state => {
       return {
         window,
-        isSplit: this.props.shouldSplit(window),
-        isStacked: this.props.shouldStack(window),
         displayMode: this.getDisplayModeForWindow(window)
       }
     })
@@ -79,20 +75,32 @@ export default class SplitNavigator extends React.Component {
     return SplitNavigator.DisplayMode.Drawer
   }
 
+  get isSplit() {
+    return this.state.displayMode == SplitNavigator.DisplayMode.Split
+  }
+
+  get isStacked() {
+    return this.state.displayMode == SplitNavigator.DisplayMode.Stacked
+  }
+
+  get isDrawer() {
+    return this.state.displayMode == SplitNavigator.DisplayMode.Drawer
+  }
+
   renderDrawer() {
     return (
       <Drawer
         ref={ref => this.drawer = ref}
         minWidth={300}
-        maxWidth={this.state.isStacked ? this.state.window.width : 300 }
-        open={this.state.isStacked}
-        width={this.state.isSplit ? '33%' : '100%'}
+        maxWidth={this.isStacked ? this.state.window.width : 300 }
+        open={this.isStacked}
+        width={this.isDrawer ? '33%' : '100%'}
         style={{
-          paddingRight: this.state.isSplit ? 10 : 0,
+          paddingRight: this.isSplit ? 10 : 0,
           backgroundColor: 'white'
         }}
-        animateOnOpen={!this.state.isStacked}
-        animateOnClose={!this.state.isStacked}
+        animateOnOpen={!this.isStacked}
+        animateOnClose={!this.isStacked}
         animationOptionsOnClose={{
           delay: 250,
           bounciness: undefined,
@@ -123,12 +131,12 @@ export default class SplitNavigator extends React.Component {
             borderRightWidth: 1,
             borderStyle: 'solid',
             borderRightColor: '#eee',
-            paddingRight: this.state.isSplit ? 10 : 0,
-            marginRight: this.state.isSplit ? 10 : 0,
+            paddingRight: this.isSplit ? 10 : 0,
+            marginRight: this.isSplit ? 10 : 0,
 
             backgroundColor: 'white',
             height: '100%',
-            width: this.state.isSplit ? '33%' : '100%',
+            width: this.isSplit ? '33%' : '100%',
           },
         ]}
       />
@@ -146,7 +154,7 @@ export default class SplitNavigator extends React.Component {
           flex: 1,
           flexGrow: 1
         }}
-        backLabel={depth => depth > (this.state.isSplit ? 1 : 0) ? '<' : null}
+        backLabel={depth => depth > (this.isSplit ? 1 : 0) ? '<' : null}
         onBack={(next, depth) => {
           depth == 1 && this.drawer ? this.drawer.open() : next()
         }}
@@ -170,7 +178,7 @@ console.log(this.state.displayMode, this.state.window.width)
         }
       >
 
-        {this.state.isSplit ? this.renderMaster() : this.renderDrawer()}
+        {this.isSplit ? this.renderMaster() : this.renderDrawer()}
 
         {this.renderDetail()}
 
