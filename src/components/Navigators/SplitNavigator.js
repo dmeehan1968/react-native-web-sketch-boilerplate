@@ -32,10 +32,10 @@ export default class SplitNavigator extends React.Component {
   }
 
   static DisplayMode = Object.freeze({
-    Initial: 'Initial',
-    Stacked: 'Stacked',
-    Drawer: 'Drawer',
-    Split: 'Split'
+    Initial: Symbol('Initial'),
+    Stacked: Symbol('Stacked'),
+    Drawer: Symbol('Drawer'),
+    Split: Symbol('Split')
   })
 
   constructor(props) {
