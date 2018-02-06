@@ -7,13 +7,38 @@ import Draggable from '../Draggable'
 export default class Slider extends React.Component {
 
   static propTypes = {
+    /*
+     * X offset for the slider button
+     */
     left: PropTypes.number.isRequired,
+    /*
+     * Height of the button in pixels
+     */
     buttonHeight: PropTypes.number.isRequired,
+    /*
+     * Background Color for the button
+     */
     buttonColor: PropTypes.string.isRequired,
+    /*
+     * Background Color for the slider when at zero
+     */
     sliderFromColor: PropTypes.string.isRequired,
+    /*
+     * Background color for the slider when at max
+     */
     sliderToColor: PropTypes.string.isRequired,
+    /*
+     * Color for the text messge shown in the slider
+     */
     textColor: PropTypes.string.isRequired,
+    /*
+     * Text message to display in the slider
+     */
     message: PropTypes.string.isRequired,
+    /*
+     * Function to handle when the slider is moved, receives the percentage
+     * of the distance from the base to max
+     */
     onSlide: PropTypes.func.isRequired,
   }
 
