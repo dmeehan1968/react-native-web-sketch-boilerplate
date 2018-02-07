@@ -30,16 +30,28 @@ describe('HelloWorld', () => {
     expect(sut.hasHelloWorldMessage).toBeTruthy()
   })
 
-  test('renders container styles', () => {
+  test('uses flexbox', () => {
     const sut = new SUT()
     expect(sut.containerStyle).toEqual(expect.objectContaining({
       flex: 1,
-      justifyContent: 'center',
+    }))
+  })
+
+  test('centers the message vertically', () => {
+    const sut = new SUT()
+    expect(sut.containerStyle).toEqual(expect.objectContaining({
+      justifyContent: 'center'
+    }))
+  })
+
+  test('centers the message horizontally', () => {
+    const sut = new SUT()
+    expect(sut.containerStyle).toEqual(expect.objectContaining({
       alignItems: 'center'
     }))
   })
 
-  test('renders text styles', () => {
+  test('sets a larger font size', () => {
     const sut = new SUT()
     expect(sut.textStyle).toEqual(expect.objectContaining({
       fontSize: 30
