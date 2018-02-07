@@ -12,11 +12,11 @@ export default class Drawer extends React.Component {
     /*
      * min: minimum width is pixels of the drawer
      */
-    min: PropTypes.number,
+    minWidth: PropTypes.number,
     /*
      * max: maximum width of the drawer
      */
-    max: PropTypes.number,
+    maxWidth: PropTypes.number,
     /*
      * width: number | string
      *
@@ -51,11 +51,18 @@ export default class Drawer extends React.Component {
      * Whether to apply an animation when closing the drawer
      */
     animateOnClose: PropTypes.bool,
+    /*
+     * Optional styles to pass to the container
+     */
+    style: PropTypes.oneOfType([
+      PropTypes.object,
+      PropTypes.number,
+    ]),
   }
 
   static defaultProps = {
-    min: 300,
-    max: 500,
+    minWidth: 300,
+    maxWidth: 500,
     width: '33%',
     animateOnOpen: true,
     animateOnClose: true
