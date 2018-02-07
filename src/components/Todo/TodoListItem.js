@@ -1,7 +1,8 @@
 import React from 'react'
 import { Text, TouchableOpacity } from 'react-native'
+import PropTypes from 'prop-types'
 
-export default ({title, onPress}) => (
+const TodoListItem = ({title, onPress = () => {}}) => (
   <TouchableOpacity
     onPress={onPress}
     style={{
@@ -18,3 +19,17 @@ export default ({title, onPress}) => (
     </Text>
   </TouchableOpacity>
 )
+
+TodoListItem.propTypes = {
+  /*
+   * Title of the item, as a string
+   */
+  title: PropTypes.string.isRequired,
+  /*
+   * Function to have when the item is pressed, receives the item as an
+   * argument
+   */
+  onPress: PropTypes.func,
+}
+
+export default TodoListItem
