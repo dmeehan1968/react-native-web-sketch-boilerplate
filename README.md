@@ -23,6 +23,10 @@ components that can targets all platforms.
 The project uses some ES7 features and proposals such as arrow functions,
 rest/spread (...) and function bind (::).  Babel is used to transpile.
 
+## License
+
+Terms are use are defined in the [MIT License](https://github.com/dmeehan1968/react-native-web-sketch-boilerplate/blob/master/LICENSE.md)
+
 ## Scripts
 
 The following scripts are provided:
