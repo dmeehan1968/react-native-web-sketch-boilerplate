@@ -32,6 +32,30 @@ export default class SlideToUnlock extends React.Component {
       PropTypes.number,
       PropTypes.object,
     ]),
+    /*
+     * The height of the slider button in pixels
+     */
+    buttonHeight: PropTypes.number,
+    /*
+     * The background color for the slider when at zero
+     */
+    fromColor: PropTypes.string,
+    /*
+     * The background color for the slider when at maximum
+     */
+    toColor: PropTypes.string,
+    /*
+     * The background color for the slider button when not pressed
+     */
+    buttonColor: PropTypes.string,
+    /*
+     * The background color for the slider when pressed
+     */
+    buttonActiveColor: PropTypes.string,
+    /*
+     * The color for the slider text message
+     */
+    textColor: PropTypes.string,
   }
 
   constructor(props) {
