@@ -5,15 +5,59 @@ import PropTypes from 'prop-types'
 export default class Draggable extends React.Component {
 
   static propTypes = {
-    onDragStart: PropTypes.func.isRequired,
-    onDragEnd: PropTypes.func.isRequired,
-    onSpringEnd: PropTypes.func.isRequired,
-    springBack: PropTypes.bool.isRequired,
-    springSettings: PropTypes.object.isRequired,
-    constrainX: PropTypes.func.isRequired,
-    constrainY: PropTypes.func.isRequired,
-    onLayout: PropTypes.func.isRequired,
-    onValueChange: PropTypes.func.isRequired,
+    /*
+     * Optional name for the component
+     */
+    name: PropTypes.string,
+    /*
+     * Function to handle when a drag operation starts
+     */
+    onDragStart: PropTypes.func,
+    /*
+     * Function to handle when a drag operation ends
+     */
+    onDragEnd: PropTypes.func,
+    /*
+     * Function to handle when the spring animation ends
+     */
+    onSpringEnd: PropTypes.func,
+    /*
+     * Flag to indicate whether the object should spring back to origin
+     */
+    springBack: PropTypes.bool,
+    /*
+     * Animation options for the spring
+     */
+    springSettings: PropTypes.object,
+    /*
+     * Function to constrain the X axis.  Passed the intended value, returns
+     * the constrained value.
+     */
+    constrainX: PropTypes.func,
+    /*
+     * Function to constrain the Y axis.  Passed the intended value, returns
+     * the constrained value.
+     */
+    constrainY: PropTypes.func,
+    /*
+     * Function to handle the onLayout event, receives a NativeEvent
+     */
+    onLayout: PropTypes.func,
+    /*
+     * Function to receive changes to the X, Y during animation
+     */
+    onValueChange: PropTypes.func,
+    /*
+     * The animated value
+     */
+    animatedValue: PropTypes.instanceOf(Animated.ValueXY),
+    /*
+     * Optional styles for the container
+     */
+    style: PropTypes.oneOfType([
+      PropTypes.object,
+      PropTypes.number,
+    ]),
   }
 
   static defaultProps = {
