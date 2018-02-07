@@ -72,6 +72,7 @@ export default class LockScreen extends React.Component {
         },
         overlay: {
           textAlign: 'center',
+          fontSize: 20,
           ...this.props.styles.overlay
         },
         slider: {
