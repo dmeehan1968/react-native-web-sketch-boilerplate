@@ -1,9 +1,43 @@
 import React from 'react'
 import { View, Text } from 'react-native'
+import PropTypes from 'prop-types'
 
 import NavBar from './NavBar'
+import ViewsPropTypes from './ViewsPropTypes'
 
 export default class StackNavigator extends React.Component {
+
+  static propTypes = {
+    /*
+     * Option name as string for the component
+     */
+    name: PropTypes.string,
+    /*
+     * Name of the property from 'views' that is the initial view for the
+     * navigator
+     */
+    root: PropTypes.string,
+    views: ViewsPropTypes,
+    /*
+     * Function to determine the back label for the navigator, receives the
+     * current stack depth as an argument (zero based)
+     */
+    backLabel: PropTypes.func,
+    /*
+     * Optional styles to be added to the navigator
+     */
+    style: PropTypes.oneOfType([
+      PropTypes.object,
+      PropTypes.number,
+    ]),
+    /*
+     * Optional function to handle what happens when the back button is
+     * pressed.  The function is provided a 'next' argument, which is
+     * a function that links to the default handler, so that onBack can
+     * be supplemented. Default is to pop from the stack.
+     */
+    onBack: PropTypes.func,
+  }
 
   constructor(props) {
     super(props)

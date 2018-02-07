@@ -158,7 +158,7 @@ export default class SplitNavigator extends React.Component {
             this.drawer && this.drawer.close()
           }
         }}
-        style={[
+        style={
           {
             borderRightWidth: 1,
             borderStyle: 'solid',
@@ -169,8 +169,8 @@ export default class SplitNavigator extends React.Component {
             backgroundColor: 'white',
             height: '100%',
             width: this.isSplit ? '33%' : '100%',
-          },
-        ]}
+          }
+        }
       />
     )
   }
