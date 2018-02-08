@@ -42,106 +42,118 @@ describe('LockScreen', () => {
     expect(sut).toBeTruthy()
   })
 
-  test('renders a clock', () => {
-    const sut = new SUT()
-    expect(sut.clock()).toHaveLength(1)
-  })
+  describe('clock', () => {
 
-  test('sets default font for clock', () => {
-    const styles = {
-      clock: {
-        fontSize: 30
+    test('renders a clock', () => {
+      const sut = new SUT()
+      expect(sut.clock()).toHaveLength(1)
+    })
+
+    test('sets default font for clock', () => {
+      const styles = {
+        clock: {
+          fontSize: 30
+        }
       }
-    }
-    const sut = new SUT()
-    expect(sut.clockStyles())
-      .toEqual(expect.objectContaining(styles.clock))
-  })
+      const sut = new SUT()
+      expect(sut.clockStyles())
+        .toEqual(expect.objectContaining(styles.clock))
+    })
 
-  test('overrides font for clock', () => {
-    const styles = {
-      clock: {
-        fontSize: 50
+    test('overrides font for clock', () => {
+      const styles = {
+        clock: {
+          fontSize: 50
+        }
       }
-    }
-    const sut = new SUT({styles})
-    expect(sut.clockStyles())
-      .toEqual(expect.objectContaining(styles.clock))
+      const sut = new SUT({styles})
+      expect(sut.clockStyles())
+        .toEqual(expect.objectContaining(styles.clock))
+    })
+
   })
 
-  test('does not render an overlay without message', () => {
-    const sut = new SUT()
-    expect(sut.overlay()).toHaveLength(0)
-  })
+  describe('overlay', () => {
 
-  test('renders a message into overlay', () => {
-    const message = 'My Message'
-    const sut = new SUT({message})
-    expect(sut.overlay()).toHaveLength(1)
-    expect(sut.overlay().props().message).toEqual(message)
-  })
+    test('does not render an overlay without message', () => {
+      const sut = new SUT()
+      expect(sut.overlay()).toHaveLength(0)
+    })
 
-  test('default overlay text is centered', () => {
-    const styles = {
-      overlay: {
-        textAlign: 'center'
+    test('does not render an overlay with message', () => {
+      const message = 'My Message'
+      const sut = new SUT({message})
+      expect(sut.overlay()).toHaveLength(1)
+      expect(sut.overlay().props().message).toEqual(message)
+    })
+
+    test('default overlay text is centered', () => {
+      const styles = {
+        overlay: {
+          textAlign: 'center'
+        }
       }
-    }
-    const message = 'Hello'
-    const sut = new SUT({message})
-    expect(sut.overlayStyles())
-      .toEqual(expect.objectContaining(styles.overlay))
-  })
+      const message = 'Hello'
+      const sut = new SUT({message})
+      expect(sut.overlayStyles())
+        .toEqual(expect.objectContaining(styles.overlay))
+    })
 
-  test('default font size for overlay', () => {
-    const styles = {
-      overlay: {
-        fontSize: 20
+    test('default font size for overlay', () => {
+      const styles = {
+        overlay: {
+          fontSize: 20
+        }
       }
-    }
-    const message = 'Hello'
-    const sut = new SUT({message})
-    expect(sut.overlayStyles())
-      .toEqual(expect.objectContaining(styles.overlay))
-  })
+      const message = 'Hello'
+      const sut = new SUT({message})
+      expect(sut.overlayStyles())
+        .toEqual(expect.objectContaining(styles.overlay))
+    })
 
-  test('sets large font size for overlay', () => {
-    const styles = {
-      overlay: {
-        fontSize: 50
+    test('sets large font size for overlay', () => {
+      const styles = {
+        overlay: {
+          fontSize: 50
+        }
       }
-    }
-    const message = 'Hello'
-    const sut = new SUT({styles, message})
-    expect(sut.overlayStyles())
-      .toEqual(expect.objectContaining(styles.overlay))
+      const message = 'Hello'
+      const sut = new SUT({styles, message})
+      expect(sut.overlayStyles())
+        .toEqual(expect.objectContaining(styles.overlay))
+    })
+
   })
 
-  test('renders a slider', () => {
-    const sut = new SUT()
-    expect(sut.slider()).toHaveLength(1)
-  })
+  describe('slider', () => {
 
-  test('set slider to 80% width', () => {
-    const styles = {
-      slider: {
-        width: '80%'
+    test('renders a slider', () => {
+      const sut = new SUT()
+      expect(sut.slider()).toHaveLength(1)
+    })
+
+    test('set slider to 80% width', () => {
+      const styles = {
+        slider: {
+          width: '80%'
+        }
       }
-    }
-    const sut = new SUT()
-    expect(sut.sliderStyles())
-      .toEqual(expect.objectContaining(styles.slider))
-  })
+      const sut = new SUT()
+      expect(sut.sliderStyles())
+        .toEqual(expect.objectContaining(styles.slider))
+    })
 
-  test('overides slider to width', () => {
-    const styles = {
-      slider: {
-        width: '60%'
+    test('overides slider to width', () => {
+      const styles = {
+        slider: {
+          width: '60%'
+        }
       }
-    }
-    const sut = new SUT({ styles })
-    expect(sut.sliderStyles())
-      .toEqual(expect.objectContaining(styles.slider))
+      const sut = new SUT({ styles })
+      expect(sut.sliderStyles())
+        .toEqual(expect.objectContaining(styles.slider))
+    })
+
   })
 
 })
