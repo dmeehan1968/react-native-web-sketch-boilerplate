@@ -1,5 +1,4 @@
-import React from 'react'
-import { View, AppRegistry } from 'react-native'
+import { AppRegistry } from 'react-native'
 
 import DemoApp from './src/components/Demo'
 import AppJson from './app.json'

@@ -27,6 +27,7 @@
     "eslint-config-react-native": "^2.0.0",
     "eslint-plugin-jest": "^21.7.0",
     "html-webpack-plugin": "^2.30.1",
+    "husky": "^0.15.0-rc.6",
     "jest-cli": "^22.1.4",
     "prop-types": "^15.6.0",
     "react-native-scripts": "^1.9.0",
@@ -52,5 +53,10 @@
   "skpm": {
     "main": "react-native-web-sketch-boilerplate.sketchplugin",
     "manifest": "sketch/manifest.json"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint && npm run test:native && npm run test:web"
+    }
   }
 }

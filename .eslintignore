@@ -1,0 +1,5 @@
+/web/webpack.config.js
+/test/**
+/webpack.skpm.config.js
+/*.sketchplugin/**
+/dist/**
