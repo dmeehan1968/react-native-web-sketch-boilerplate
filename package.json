@@ -25,6 +25,7 @@
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
     "eslint-config-react-native": "^2.0.0",
+    "eslint-plugin-jest": "^21.7.0",
     "html-webpack-plugin": "^2.30.1",
     "jest-cli": "^22.1.4",
     "prop-types": "^15.6.0",
