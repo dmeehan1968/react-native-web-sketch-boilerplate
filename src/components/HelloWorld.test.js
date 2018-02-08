@@ -1,5 +1,4 @@
 import React from 'react'
-import 'react-native'
 import { Text, StyleSheet } from 'react-native'
 import { shallow } from 'enzyme';
 

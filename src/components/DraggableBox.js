@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text, View, TouchableHighlight } from 'react-native'
+import { Text, View } from 'react-native'
 import Draggable from './Draggable'
 import Box from './Box'
 
@@ -20,7 +20,7 @@ export default class DraggableBox extends React.Component {
           onDragStart={() => this.setState({ message: 'Drop Me', color: 'blue' })}
           onDragEnd={() => this.setState({ message: 'Weeee!!', color: 'red' })}
           onSpringEnd={() => this.setState({ message: 'Drag Me', color: 'black' })}
-          springBack={true}
+          springBack
           springSettings={{ speed: 12 }}
         >
           <Box

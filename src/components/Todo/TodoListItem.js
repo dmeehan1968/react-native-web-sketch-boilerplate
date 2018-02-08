@@ -2,7 +2,7 @@ import React from 'react'
 import { Text, TouchableOpacity } from 'react-native'
 import PropTypes from 'prop-types'
 
-const TodoListItem = ({title, onPress = () => {}}) => (
+const TodoListItem = ({title, onPress = () => null}) => (
   <TouchableOpacity
     onPress={onPress}
     style={{

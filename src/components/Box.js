@@ -1,12 +1,13 @@
 import React from 'react'
-import { Animated, PanResponder, Text, View } from 'react-native'
+import { View } from 'react-native'
+import PropTypes from 'prop-types'
 
-export default class Box extends React.Component {
+const Box = ({children, ...rest}) => (
+  <View {...rest}>{children}</View>
+)
 
-  render() {
-    const { children, ...rest } = this.props
-    return (
-      <View {...rest}>{children}</View>
-    )
-  }
+Box.propTypes = {
+  children: PropTypes.node,
 }
+
+export default Box

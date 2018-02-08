@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text, View, StyleSheet, Animated } from 'react-native'
+import { View } from 'react-native'
 import PropTypes from 'prop-types'
 
 import Slider from './Slider'
@@ -13,14 +13,10 @@ export default class SlideToUnlock extends React.Component {
     buttonColor: '#aaa',
     buttonActiveColor: 'red',
     textColor: '#aaa',
-    onUnlock: () => {}
+    onUnlock: () => null
   }
 
   static propTypes = {
-    /*
-     * height of the slider button in pixels
-     */
-    buttonHeight: PropTypes.number,
     /*
      * Function to handle when the unlock occurs
      */

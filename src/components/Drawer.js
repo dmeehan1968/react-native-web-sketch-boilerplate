@@ -58,6 +58,7 @@ export default class Drawer extends React.Component {
       PropTypes.object,
       PropTypes.number,
     ]),
+    children: PropTypes.node,
   }
 
   static defaultProps = {

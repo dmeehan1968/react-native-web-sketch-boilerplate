@@ -1,5 +1,5 @@
 import React from 'react'
-import { Image, View, Text, StyleSheet, Platform } from 'react-native'
+import { View, StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
 
 import SlideToUnlock from './SlideToUnlock'
@@ -47,7 +47,7 @@ export default class LockScreen extends React.Component {
       overlay: {},
       slider: {}
     },
-    onUnlock: () => {}
+    onUnlock: () => null
   }
 
   constructor(props) {

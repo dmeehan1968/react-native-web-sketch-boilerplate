@@ -1,11 +1,10 @@
 import React from 'react'
-import { Text, View } from 'react-native'
 import PropTypes from 'prop-types'
 
 import FlatList from './FlatList'
 import TodoListItem from './TodoListItem'
 
-const TodoList = ({items, style, onItemPress = () => {}}) => (
+const TodoList = ({items, style, onItemPress = () => null}) => (
   <FlatList
     data={items}
     keyExtractor={item => item.id.toString()}

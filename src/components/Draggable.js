@@ -58,19 +58,20 @@ export default class Draggable extends React.Component {
       PropTypes.object,
       PropTypes.number,
     ]),
+    children: PropTypes.node,
   }
 
   static defaultProps = {
     name: 'Draggable',
-    onDragStart: () => {},
-    onDragEnd: () => {},
-    onSpringEnd: () => {},
+    onDragStart: () => null,
+    onDragEnd: () => null,
+    onSpringEnd: () => null,
     springBack: false,
     springSettings: {},
     constrainX: x => x,
     constrainY: y => y,
-    onLayout: () => {},
-    onValueChange: () => {}
+    onLayout: () => null,
+    onValueChange: () => null
   }
 
   constructor(props) {
@@ -80,12 +81,12 @@ export default class Draggable extends React.Component {
 
   componentWillMount() {
     this._panResponder = PanResponder.create({
-      onStartShouldSetPanResponderCapture: (e, gestureState) => {
+      onStartShouldSetPanResponderCapture: (e) => {
         e.preventDefault()
         this.props.onDragStart()
         return true
       },
-      onPanResponderGrant: (e, gestureState) => {
+      onPanResponderGrant: () => {
         this.animatedValue.setOffset({
           x: this.animatedValue.x._value,
           y: this.animatedValue.y._value
@@ -107,7 +108,7 @@ export default class Draggable extends React.Component {
           }
         }
       }),
-      onPanResponderRelease: (e, gestureState) => {
+      onPanResponderRelease: () => {
         this.props.onDragEnd()
         this.animatedValue.flattenOffset()
         if (this.props.springBack) {

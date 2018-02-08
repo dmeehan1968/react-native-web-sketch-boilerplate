@@ -108,15 +108,15 @@ export default class SplitNavigator extends React.Component {
   }
 
   get isSplit() {
-    return this.state.displayMode == SplitNavigator.DisplayMode.Split
+    return this.state.displayMode === SplitNavigator.DisplayMode.Split
   }
 
   get isStacked() {
-    return this.state.displayMode == SplitNavigator.DisplayMode.Stacked
+    return this.state.displayMode === SplitNavigator.DisplayMode.Stacked
   }
 
   get isDrawer() {
-    return this.state.displayMode == SplitNavigator.DisplayMode.Drawer
+    return this.state.displayMode === SplitNavigator.DisplayMode.Drawer
   }
 
   renderDrawer() {
@@ -188,7 +188,7 @@ export default class SplitNavigator extends React.Component {
         }}
         backLabel={depth => depth > (this.isSplit ? 1 : 0) ? '<' : null}
         onBack={(next, depth) => {
-          depth == 1 && this.drawer ? this.drawer.open() : next()
+          depth === 1 && this.drawer ? this.drawer.open() : next()
         }}
       />
     )

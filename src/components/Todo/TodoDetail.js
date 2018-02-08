@@ -7,7 +7,7 @@ const TodoDetail = ({style, title}) => (
     style={style}
   >
     <Text>
-      Content Here for item '{title}'
+      Content Here for item &apos;{title}&apos;
     </Text>
   </View>
 )

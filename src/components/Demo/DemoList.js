@@ -73,9 +73,9 @@ export default class SelectableDemoList extends React.Component {
       <DemoList
         data={data}
         extraData={this.state}
-        isItemSelected={item => {
-          return this.state.selected && item.key === this.state.selected.key
-        }}
+        isItemSelected={item => (
+          this.state.selected && item.key === this.state.selected.key
+        )}
         onItemPress={item => {
           this.setState({selected: item})
           onItemPress(item)

@@ -43,7 +43,7 @@ export default class Slider extends React.Component {
   }
 
   static defaultProps = {
-    onSlide: () => {}
+    onSlide: () => null
   }
 
   constructor(props) {
@@ -106,7 +106,7 @@ export default class Slider extends React.Component {
           animatedValue={this.animatedValue}
           constrainX={x => x.setValue(Math.min(Math.max(0,x._value),this.state.maxX-this.props.buttonHeight))}
           constrainY={y => y.setValue(0)}
-          springBack={true}
+          springBack
           springSettings={{ bounciness: 0 }}
           onValueChange={(animatedValueXY) => {
             if (this.props.onSlide) {

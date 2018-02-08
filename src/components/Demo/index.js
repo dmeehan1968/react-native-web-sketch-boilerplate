@@ -1,9 +1,8 @@
 import React from 'react'
-import { SafeAreaView, TouchableOpacity, Text, View } from 'react-native'
+import { SafeAreaView, Text, View } from 'react-native'
 import { SplitNavigator } from '../Navigators'
 import PropTypes from 'prop-types'
 
-import FlatList from '../Todo/FlatList'
 import DraggableBox from '../DraggableBox'
 import HelloWorld from '../HelloWorld'
 import LockScreenApp from '../LockScreen'
@@ -11,8 +10,7 @@ import TodoList from '../Todo/TodoList'
 import TodoDetail from '../Todo/TodoDetail'
 import DemoList from './DemoList'
 
-const TextWrap = ({ viewStyle, textStyle }) => {
-  return (
+const TextWrap = ({ viewStyle, textStyle }) => (
     <View style={viewStyle}>
       <Text style={textStyle}>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit.
@@ -31,6 +29,10 @@ const TextWrap = ({ viewStyle, textStyle }) => {
       </Text>
     </View>
   )
+
+TextWrap.propTypes = {
+  viewStyle: PropTypes.object,
+  textStyle: PropTypes.object,
 }
 
 class DemoApp extends React.Component {
@@ -53,9 +55,10 @@ class DemoApp extends React.Component {
 
   static defaultProps = {
     onDemoItemPress: (demo, navigator, props, next) => { next(demo, navigator, props) },
-    onModeChange: () => {}
+    onModeChange: () => null
   }
 
+  // eslint-disable-next-line class-methods-use-this
   onDemoItemPress(demo, navigator, props) {
     navigator.navigate(demo.view, props)
   }
@@ -81,7 +84,7 @@ class DemoApp extends React.Component {
               component: DemoList,
               title: "Demos",
               props: {
-                selected: selected,
+                selected,
                 data: [
                 {
                   key: 0,
@@ -184,6 +187,7 @@ class DemoApp extends React.Component {
   }
 }
 
+// eslint-disable-next-line react/no-multi-comp
 export default class StatefulDemoApp extends React.Component {
 
   constructor(props) {

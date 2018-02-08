@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, Artboard, Document, Page, StyleSheet, View, Text } from 'react-sketchapp'
+import { render, Artboard, Document, Page, StyleSheet } from 'react-sketchapp'
 import PropTypes from 'prop-types'
 
 import HelloWorld from './src/components/HelloWorld'
@@ -13,6 +13,7 @@ class Device extends React.Component {
     width: PropTypes.number,
     height: PropTypes.number,
     landscape: PropTypes.bool,
+    children: PropTypes.node,
   }
 
   static defaultProps = {
@@ -51,11 +52,21 @@ const IPhoneSE = ({landscape, children}) => (
   </Device>
 )
 
+IPhoneSE.propTypes = {
+  landscape: PropTypes.bool,
+  children: PropTypes.node,
+}
+
 const IPhoneX = ({landscape, children}) => (
   <Device name="iPhone X" width={375} height={812} landscape={landscape}>
     {children}
   </Device>
 )
+
+IPhoneX.propTypes = {
+  landscape: PropTypes.bool,
+  children: PropTypes.node,
+}
 
 const IPad = ({landscape, children}) => (
   <Device name="iPad" width={768} height={1024} landscape={landscape}>
@@ -63,11 +74,21 @@ const IPad = ({landscape, children}) => (
   </Device>
 )
 
+IPad.propTypes = {
+  landscape: PropTypes.bool,
+  children: PropTypes.node,
+}
+
 const SmallDesktop = ({landscape, children}) => (
   <Device name="Small Desktop" width={800} height={600} landscape={landscape}>
     {children}
   </Device>
 )
+
+SmallDesktop.propTypes = {
+  landscape: PropTypes.bool,
+  children: PropTypes.node,
+}
 
 const Spread = ({name, style, children, ...otherProps}) => (
   <Artboard
@@ -85,6 +106,21 @@ const Spread = ({name, style, children, ...otherProps}) => (
     <SmallDesktop>{React.cloneElement(children)}</SmallDesktop>
   </Artboard>
 )
+
+Spread.propTypes = {
+  name: PropTypes.string,
+  style: PropTypes.oneOfType([
+      PropTypes.shape({}),
+      PropTypes.arrayOf(
+        PropTypes.oneOfType([
+          PropTypes.shape({}),
+          PropTypes.number,
+        ])
+      ),
+      PropTypes.number,
+    ]),
+  children: PropTypes.node,
+}
 
 export default () => {
   render((

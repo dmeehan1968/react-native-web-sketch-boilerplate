@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text, View, StyleSheet, Platform } from 'react-native'
+import { Text, View, Platform } from 'react-native'
 import PropTypes from 'prop-types'
 
 export default class Clock extends React.Component {

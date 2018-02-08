@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text } from 'react-native'
+import { View } from 'react-native'
 import PropTypes from 'prop-types'
 
 import NavBar from './NavBar'
@@ -37,6 +37,12 @@ export default class StackNavigator extends React.Component {
      * be supplemented. Default is to pop from the stack.
      */
     onBack: PropTypes.func,
+    /*
+     * Allows navigator to be reconfigured
+     */
+    navigator: PropTypes.shape({
+      navigate: PropTypes.func,
+    }),
   }
 
   constructor(props) {
@@ -55,14 +61,12 @@ export default class StackNavigator extends React.Component {
       ...this.props.navigator
     }
     Object.getOwnPropertyNames(handlers).forEach(name => {
-      navHandlers[name] = (...args) => {
-        return handlers[name](...args, navigator)
-      }
+      navHandlers[name] = (...args) => handlers[name](...args, navigator)
     })
 
     return {
-      name: name,
-      view: view,
+      name,
+      view,
       props: { ...props, ...otherProps, ...navHandlers },
       renderElement: () => (
         <Component
@@ -75,50 +79,46 @@ export default class StackNavigator extends React.Component {
   }
 
   navigate(name, props, index) {
-    this.setState(state => {
-      return {
+    this.setState(state => ({
         stack: [
           ...state.stack.slice(0, index),
           this.getView(name, props)
         ]
       }
-    })
+    ))
   }
 
   pop() {
-    this.setState(state => {
-      return {
+    this.setState(() => ({
         stack: this.state.stack.slice(0, -1)
       }
-    })
+    ))
   }
 
   componentWillMount() {
     const root = Array.isArray(this.props.root) ? this.props.root : [ this.props.root ]
-    this.setState(state => {
-      return {
+    this.setState(() => ({
         stack: root.map(view => view && this.getView(view)).filter(view => !!view)
       }
-    })
+    ))
   }
 
   componentWillReceiveProps(newProps) {
-    this.setState(state => {
-      return {
-        stack: state.stack.map(view => {
-          return this.getView(view.name, { ...view.props, ...newProps.views[view.name].props })
-        })
+    this.setState(state => ({
+        stack: state.stack.map(view => (
+          this.getView(view.name, { ...view.props, ...newProps.views[view.name].props })
+        ))
       }
-    })
+    ))
   }
 
-  backLabel(depth) {
+  static backLabel(depth) {
     return depth > 1 ? '<' : null
   }
 
   render() {
     const { view, renderElement, props } = this.state.stack.slice(-1).pop()
-    const { backLabel = ::this.backLabel } = this.props
+    const { backLabel = StackNavigator.backLabel } = this.props
 
     return (
       <View style={this.props.style} name={this.props.name || 'StackNavigator'}>
