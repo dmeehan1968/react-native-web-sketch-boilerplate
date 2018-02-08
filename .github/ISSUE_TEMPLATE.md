@@ -1,8 +1,3 @@
-# Issue Type
-
-- [ ] Bug
-- [ ] Enhancement
-
 # Observed Behaviour
 
 # Steps to Reproduce
