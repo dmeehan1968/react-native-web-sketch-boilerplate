@@ -1,30 +1,10 @@
 import React from 'react'
-import { render, Artboard, StyleSheet, View, Text } from 'react-sketchapp'
+import { render, Artboard, Document, Page, StyleSheet, View, Text } from 'react-sketchapp'
 import PropTypes from 'prop-types'
 
 import HelloWorld from './src/components/HelloWorld'
 import { LockScreen } from './src/components/LockScreen'
-
-class Document extends React.Component {
-
-  get styles() {
-    return this._styles || (this._styles = StyleSheet.create({
-      artboard: {
-        padding: 50,
-        backgroundColor: '#eee'
-      }
-    }))
-  }
-
-  render() {
-    return (
-      <Artboard style={this.styles.artboard}>
-        {this.props.children}
-      </Artboard>
-    )
-  }
-
-}
+import DraggableBox from './src/components/DraggableBox'
 
 class Device extends React.Component {
 
@@ -32,55 +12,97 @@ class Device extends React.Component {
     name: PropTypes.string,
     width: PropTypes.number,
     height: PropTypes.number,
+    landscape: PropTypes.bool,
   }
 
   static defaultProps = {
     name: 'Desktop',
     width: 800,
-    height: 600
+    height: 600,
+    landscape: false
   }
 
   get styles() {
     return this._styles || (this._styles = StyleSheet.create({
-      name: {
-        marginTop: 10,
-        marginBottom: 20,
-        fontSize: 20
+      container: {
+        margin: 10,
+        backgroundColor: '#fff',
       },
       content: {
-        backgroundColor: '#fff'
       }
     }))
   }
 
   render() {
     return (
-      <View style={this.styles.container}>
-        <Text style={this.styles.name}>{this.props.name}</Text>
-        <View style={[this.styles.content, {
-          height: this.props.height,
-          width: this.props.width
-        }]}>
-          {this.props.children}
-        </View>
-      </View>
+      <Artboard name={this.props.name} style={[this.styles.container, {
+        height: this.props.landscape ? this.props.width : this.props.height,
+        width: this.props.landscape ? this.props.height : this.props.width,
+      }]}>
+        {this.props.children}
+      </Artboard>
     )
   }
 }
 
-export default () => {
+const IPhoneSE = ({landscape, children}) => (
+  <Device name="iPhone SE" width={300} height={568} landscape={landscape}>
+    {children}
+  </Device>
+)
 
+const IPhoneX = ({landscape, children}) => (
+  <Device name="iPhone X" width={375} height={812} landscape={landscape}>
+    {children}
+  </Device>
+)
+
+const IPad = ({landscape, children}) => (
+  <Device name="iPad" width={768} height={1024} landscape={landscape}>
+    {children}
+  </Device>
+)
+
+const SmallDesktop = ({landscape, children}) => (
+  <Device name="Small Desktop" width={800} height={600} landscape={landscape}>
+    {children}
+  </Device>
+)
+
+const Spread = ({name, style, children, ...otherProps}) => (
+  <Artboard
+    name={name}
+    style={[{
+      flexDirection: 'row',
+      marginBottom: 100,
+      backgroundColor: '#eee',
+    }, style]}
+    {...otherProps}
+  >
+    <IPhoneSE>{React.cloneElement(children)}</IPhoneSE>
+    <IPhoneX>{React.cloneElement(children)}</IPhoneX>
+    <IPad>{React.cloneElement(children)}</IPad>
+    <SmallDesktop>{React.cloneElement(children)}</SmallDesktop>
+  </Artboard>
+)
+
+export default () => {
   render((
     <Document>
-      {/* <Device name="iPhone SE" width={300} height={568}>
-        <HelloWorld />
-      </Device> */}
-      <Device name="iPhone SE" width={300} height={568}>
-        <LockScreen
-          message="This is a sample user message.  It will change to 'unlocked' when the slider is moved all the way to the right."
-        />
-      </Device>
+      <Page>
+        <Spread name="HelloWorld">
+          <HelloWorld />
+        </Spread>
+        <Spread name="Draggable Box">
+          <DraggableBox />
+        </Spread>
+        <Spread name="LockScreen">
+          <LockScreen
+            message="This is a message that will be replaced when the device is unlocked"
+          />
+        </Spread>
+      </Page>
     </Document>
-  ), context.document.currentPage())
+))
 
 }
