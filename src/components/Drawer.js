@@ -1,6 +1,24 @@
 import React from 'react'
-import { Animated, TouchableOpacity, View, Dimensions } from 'react-native'
+import { Animated, TouchableOpacity, View, Dimensions, StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
+
+import StylePropTypes from './StylePropTypes'
+import designSystem from './designSystem'
+
+const styles = StyleSheet.create({
+  container: {
+    position: 'absolute',
+    zIndex: 999,
+    width: '100%',
+    height: '100%',
+    flex: 1,
+    flexDirection: 'row',
+  },
+  overlay: {
+    backgroundColor: designSystem.colors.overlayColor,
+    flexGrow: 1,
+  }
+})
 
 export default class Drawer extends React.Component {
 
@@ -54,10 +72,7 @@ export default class Drawer extends React.Component {
     /*
      * Optional styles to pass to the container
      */
-    style: PropTypes.oneOfType([
-      PropTypes.object,
-      PropTypes.number,
-    ]),
+    style: StylePropTypes({}),
     children: PropTypes.node,
   }
 
@@ -144,42 +159,29 @@ export default class Drawer extends React.Component {
     return result
   }
 
+  handlePress = () => this.close()
+
   render() {
     return (
       <Animated.View
         style={
-          [
-          {
-            position: 'absolute',
-            zIndex: 999,
-            width: '100%',
-            height: '100%',
-            flex: 1,
-            flexDirection: 'row',
+          [styles.container, {
             transform: [{
-                translateX: this.animatedOffsetX
+              translateX: this.animatedOffsetX
             }]
           }]
         }
       >
         <View style={
-          [
-          {
-          },
-          this.props.style,
-          {
+          [this.props.style, {
             width: this.getWidth(),
-          }
-          ]
+          }]
         }>
           {this.props.children}
         </View>
         <TouchableOpacity
-          style={{
-            backgroundColor: 'transparent',
-            flexGrow: 1,
-          }}
-          onPress={::this.close}
+          style={styles.overlay}
+          onPress={this.handlePress}
         />
       </Animated.View>
     )

@@ -4,6 +4,8 @@ const colors = {
   deselected: 'transparent',
   separator: '#eee',
   pressableText: 'blue',
+  backgroundColor: 'white',
+  overlayColor: 'transparent',
 }
 
 export default {

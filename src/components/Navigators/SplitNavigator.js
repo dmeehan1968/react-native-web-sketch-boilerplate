@@ -1,11 +1,21 @@
 import React from 'react'
-import { View, Dimensions } from 'react-native'
+import { View, Dimensions, StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
 
 import StackNavigator from './StackNavigator'
 import Drawer from '../Drawer'
 
 import ViewsPropTypes from './ViewsPropTypes'
+import designSystem from '../designSystem'
+
+const styles = StyleSheet.create({
+  drawer: {
+    backgroundColor: designSystem.colors.backgroundColor
+  },
+  drawerSplit: {
+    paddingRight: 10,
+  }
+})
 
 export default class SplitNavigator extends React.Component {
 
@@ -119,18 +129,17 @@ export default class SplitNavigator extends React.Component {
     return this.state.displayMode === SplitNavigator.DisplayMode.Drawer
   }
 
+  drawerRef = ref => this.drawer = ref
+
   renderDrawer() {
     return (
       <Drawer
-        ref={ref => this.drawer = ref}
+        ref={this.drawerRef}
         minWidth={300}
         maxWidth={this.isStacked ? this.state.window.width : 300 }
         open={this.isStacked}
         width={this.isDrawer ? '33%' : '100%'}
-        style={{
-          paddingRight: this.isSplit ? 10 : 0,
-          backgroundColor: 'white'
-        }}
+        style={[styles.drawer, this.isSplit ? styles.drawerSplit : null]}
         animateOnOpen={!this.isStacked}
         animateOnClose={!this.isStacked}
         animationOptionsOnClose={{
