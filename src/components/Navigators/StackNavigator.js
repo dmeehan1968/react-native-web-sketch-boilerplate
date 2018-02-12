@@ -88,7 +88,7 @@ export default class StackNavigator extends React.Component {
     ))
   }
 
-  pop() {
+  pop = () => {
     this.setState(() => ({
         stack: this.state.stack.slice(0, -1)
       }
@@ -116,6 +116,13 @@ export default class StackNavigator extends React.Component {
     return depth > 1 ? '<' : null
   }
 
+  handleBack = () => {
+    const { view } = this.state.stack.slice(-1).pop()
+    const next = next => next()
+    const onBack = (this.props.onBack || next).bind(null, (view.onBack || next).bind(null, this.pop))
+    onBack(this.state.stack.length)
+  }
+
   render() {
     const { view, renderElement, props } = this.state.stack.slice(-1).pop()
     const { backLabel = StackNavigator.backLabel } = this.props
@@ -125,11 +132,7 @@ export default class StackNavigator extends React.Component {
         <NavBar
           backLabel={backLabel(this.state.stack.length)}
           title={typeof view.title === 'function' && view.title(props) || view.title || "--No Title--"}
-          onBack={() => {
-            const next = next => next()
-            const onBack = (this.props.onBack || next).bind(null, (view.onBack || next).bind(null, ::this.pop))
-            onBack(this.state.stack.length)
-          }}
+          onBack={this.handleBack}
         />
         {renderElement()}
       </View>
