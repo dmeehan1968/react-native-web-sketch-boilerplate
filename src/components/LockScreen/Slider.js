@@ -54,8 +54,18 @@ export default class Slider extends React.Component {
     this.state = {}
   }
 
-  onLayout(e) {
+  handleLayout = (e) => {
     this.setState({ maxX: e.nativeEvent.layout.width })
+  }
+
+  constrainX = x => x.setValue(Math.min(Math.max(0,x._value),this.state.maxX-this.props.buttonHeight))
+
+  constrainY = y => y.setValue(0)
+
+  handleValueChange = animatedValueXY => {
+    if (this.props.onSlide) {
+      this.props.onSlide(animatedValueXY.x._value / (this.state.maxX - this.props.buttonHeight))
+    }
   }
 
   render() {
@@ -97,22 +107,18 @@ export default class Slider extends React.Component {
       <Container
         name="Slider"
         style={sliderStyle}
-        onLayout={::this.onLayout}
+        onLayout={this.handleLayout}
       >
         <Text name="SliderText" style={textStyle}>{this.props.message}</Text>
         <Draggable
           name="SliderButton"
           style={buttonStyle}
           animatedValue={this.animatedValue}
-          constrainX={x => x.setValue(Math.min(Math.max(0,x._value),this.state.maxX-this.props.buttonHeight))}
-          constrainY={y => y.setValue(0)}
+          constrainX={this.constrainX}
+          constrainY={this.constrainY}
           springBack
           springSettings={{ bounciness: 0 }}
-          onValueChange={(animatedValueXY) => {
-            if (this.props.onSlide) {
-              this.props.onSlide(animatedValueXY.x._value / (this.state.maxX - this.props.buttonHeight))
-            }
-          }}
+          onValueChange={this.handleValueChange}
         />
       </Container>
     )
