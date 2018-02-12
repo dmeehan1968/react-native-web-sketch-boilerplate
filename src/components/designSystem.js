@@ -9,7 +9,8 @@ const colors = {
   boxTextColor: 'white',
   boxDefaultColor: 'black',
   boxDragColor: 'blue',
-  boxSpringColor: 'red'
+  boxSpringColor: 'red',
+  artboardBackgroundColor: '#eee',
 }
 
 export default {

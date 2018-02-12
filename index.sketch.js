@@ -6,6 +6,8 @@ import HelloWorld from './src/components/HelloWorld'
 import { LockScreen } from './src/components/LockScreen'
 import DraggableBox from './src/components/DraggableBox'
 
+import designSystem from './src/components/designSystem'
+
 class Device extends React.Component {
 
   static propTypes = {
@@ -90,14 +92,18 @@ SmallDesktop.propTypes = {
   children: PropTypes.node,
 }
 
+const styles = StyleSheet.create({
+  artboard: {
+    flexDirection: 'row',
+    marginBottom: 100,
+    backgroundColor: designSystem.colors.artboardBackgroundColor,
+  }
+})
+
 const Spread = ({name, style, children, ...otherProps}) => (
   <Artboard
     name={name}
-    style={[{
-      flexDirection: 'row',
-      marginBottom: 100,
-      backgroundColor: '#eee',
-    }, style]}
+    style={[styles.artboard, style]}
     {...otherProps}
   >
     <IPhoneSE>{React.cloneElement(children)}</IPhoneSE>
