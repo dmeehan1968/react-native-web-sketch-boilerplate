@@ -17,6 +17,7 @@ components that can targets all platforms.
 * [Babel](https://babeljs.io)
 * [Jest](https://facebook.github.io/jest/)
 * [Enzyme](http://airbnb.io/enzyme/)
+* [ESLint](https://eslint.org)
 
 ## Code Standard
 
@@ -82,6 +83,28 @@ The following scripts are provided:
 * ```npm run web:build```
 
   Build only for webpack
+
+* ```npm run lint```
+
+  Runs eslint on all the entire project
+
+* ```npm run precommit```
+
+  Runs lint and tests for currently staged modules.  See
+  '[git hooks](#git-hooks)' for more.
+
+## Git Hooks
+
+The package uses [husky](https://www.npmjs.com/package/husky) to run
+commands on certain git actions (git hooks).
+
+[Lint-staged](https://www.npmjs.com/package/lint-staged) is used to simplify
+identification of staged files and run the appropriate commands.
+
+* Pre Commit
+
+  Before committing, linting and tests are run on the currently staged files.
+
 
 ## Demos
 
