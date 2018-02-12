@@ -85,9 +85,11 @@ class DemoApp extends React.Component {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  onDemoItemPress(demo, navigator, props) {
+  onDemoItemPress = (demo, navigator, props) => {
     navigator.navigate(demo.view, props)
   }
+
+  navigatorRef = ref => this.navigator = ref
 
   render() {
     const selected = this.props.selected || (this.navigator && !this.navigator.isStacked ? { key: 0 } : null)
@@ -97,7 +99,7 @@ class DemoApp extends React.Component {
       >
 
         <SplitNavigator
-          ref={ref => this.navigator = ref}
+          ref={this.navigatorRef}
           master="DemoList"
           detail="HelloWorld"
           onModeChange={this.props.onModeChange}
@@ -136,7 +138,7 @@ class DemoApp extends React.Component {
                 ]
               },
               handlers: {
-                onItemPress: (demo, navigator) => this.props.onDemoItemPress(demo, navigator, { title: demo.title }, ::this.onDemoItemPress)
+                onItemPress: (demo, navigator) => this.props.onDemoItemPress(demo, navigator, { title: demo.title }, this.onDemoItemPress)
               },
             },
             HelloWorld: {
@@ -204,12 +206,12 @@ export default class StatefulDemoApp extends React.Component {
     this.state = {}
   }
 
-  onDemoItemPress(demo, navigator, props, next) {
+  handleDemoItemPress = (demo, navigator, props, next) => {
     this.setState(() => ({ selected: demo }))
     next(demo, navigator, props)
   }
 
-  onModeChange(mode, newMode) {
+  handleModeChange = (mode, newMode) => {
     if (mode === SplitNavigator.DisplayMode.Initial || newMode === SplitNavigator.DisplayMode.Stacked) {
       this.setState(() => ({ selected: null }))
     }
@@ -218,9 +220,9 @@ export default class StatefulDemoApp extends React.Component {
   render() {
     return (
       <DemoApp
-        onDemoItemPress={::this.onDemoItemPress}
+        onDemoItemPress={this.handleDemoItemPress}
         selected={this.state.selected}
-        onModeChange={::this.onModeChange}
+        onModeChange={this.handleModeChange}
       />
     )
   }
