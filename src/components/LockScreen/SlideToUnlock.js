@@ -63,6 +63,12 @@ export default class SlideToUnlock extends React.Component {
     }
   }
 
+  handleSlide = distance => {
+    if (distance >= 1) {
+      this.props.onUnlock()
+    }
+  }
+  
   render() {
 
     return (
@@ -78,11 +84,7 @@ export default class SlideToUnlock extends React.Component {
           sliderToColor={this.props.toColor}
           textColor={this.props.textColor}
           message="Slide to Unlock >>>"
-          onSlide={distance => {
-            if (distance >= 1) {
-              this.props.onUnlock()
-            }
-          }}
+          onSlide={this.handleSlide}
         />
       </View>
     )
