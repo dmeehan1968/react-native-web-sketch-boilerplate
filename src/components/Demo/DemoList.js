@@ -3,43 +3,72 @@ import PropTypes from 'prop-types'
 
 import FlatList from '../Todo/FlatList'
 import DemoItem from './DemoItem'
+import StylePropTypes from '../StylePropTypes'
 
-const DemoList = ({data, extraData, onItemPress, isItemSelected}) => (
-  <FlatList
-    data={data}
-    extraData={extraData}
-    renderItem={({item}) => (
+class DemoItemContainer extends React.PureComponent {
+
+  static propTypes = {
+    style: StylePropTypes({}),
+    onPress: PropTypes.func.isRequired,
+    item: PropTypes.object.isRequired,
+  }
+
+  handleOnPress = () => this.props.onPress(this.props.item)
+
+  render() {
+    return (
       <DemoItem
-        {...item}
-        style={{
-          backgroundColor: isItemSelected(item) ? '#aaa' : 'transparent'
-        }}
-        onPress={() => onItemPress(item)}
+        {...this.props.item}
+        style={this.props.style}
+        onPress={this.handleOnPress}
       />
-    )}
-  />
-)
-
-DemoList.propTypes = {
-  /*
-   * Array of data to that is used to populate the list
-   */
-  data: PropTypes.array.isRequired,
-  /*
-   * Extra data used to trigger render
-   */
-  extraData: PropTypes.any,
-  /*
-   * Function to handle when an item is pressed
-   */
-  onItemPress: PropTypes.func.isRequired,
-  /*
-   * Function to determine if an item is a selected item
-   */
-  isItemSelected: PropTypes.func.isRequired,
+    )
+  }
 }
 
-export default class SelectableDemoList extends React.Component {
+class DemoList extends React.PureComponent {
+
+  static propTypes = {
+    /*
+     * Array of data to that is used to populate the list
+     */
+    data: PropTypes.array.isRequired,
+    /*
+     * Extra data used to trigger render
+     */
+    extraData: PropTypes.any,
+    /*
+     * Function to handle when an item is pressed
+     */
+    onItemPress: PropTypes.func.isRequired,
+    /*
+     * Function to determine if an item is a selected item
+     */
+    isItemSelected: PropTypes.func.isRequired,
+  }
+
+  renderItem = ({item}) => (
+    <DemoItemContainer
+      item={item}
+      style={{
+        backgroundColor: this.props.isItemSelected(item) ? '#aaa' : 'transparent'
+      }}
+      onPress={this.props.onItemPress}
+    />
+  )
+
+  render() {
+    return (
+      <FlatList
+        data={this.props.data}
+        extraData={this.props.extraData}
+        renderItem={this.renderItem}
+      />
+    )
+  }
+}
+
+export default class SelectableDemoList extends React.PureComponent {
 
   static propTypes = {
     /*
@@ -67,19 +96,22 @@ export default class SelectableDemoList extends React.Component {
     this.setState({ selected: newProps.selected })
   }
 
+  onIsItemSelected = item => (
+    this.state.selected && item.key === this.state.selected.key
+  )
+
+  handleOnItemPress = item => {
+    this.setState({selected: item})
+    this.props.onItemPress(item)
+  }
+
   render() {
-    const {data, onItemPress} = this.props
     return (
       <DemoList
-        data={data}
+        data={this.props.data}
         extraData={this.state}
-        isItemSelected={item => (
-          this.state.selected && item.key === this.state.selected.key
-        )}
-        onItemPress={item => {
-          this.setState({selected: item})
-          onItemPress(item)
-        }}
+        isItemSelected={this.onIsItemSelected}
+        onItemPress={this.handleOnItemPress}
       />
     )
   }
