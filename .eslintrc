@@ -6,6 +6,7 @@
     "react/prefer-stateless-function": "warn",
     "react-native/no-color-literals": "warn",
     "react-native/no-inline-styles": "warn",
+    "react/no-multi-comp": "warn",
     "no-invalid-this": "off",
     "babel/no-invalid-this": "error",
     "no-console": "warn",
