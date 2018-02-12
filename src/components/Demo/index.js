@@ -1,5 +1,5 @@
 import React from 'react'
-import { SafeAreaView, Text, View } from 'react-native'
+import { SafeAreaView, Text, View, StyleSheet } from 'react-native'
 import { SplitNavigator } from '../Navigators'
 import PropTypes from 'prop-types'
 
@@ -9,6 +9,7 @@ import LockScreenApp from '../LockScreen'
 import TodoList from '../Todo/TodoList'
 import TodoDetail from '../Todo/TodoDetail'
 import DemoList from './DemoList'
+import StylePropTypes from '../StylePropTypes'
 
 const TextWrap = ({ viewStyle, textStyle }) => (
     <View style={viewStyle}>
@@ -31,9 +32,34 @@ const TextWrap = ({ viewStyle, textStyle }) => (
   )
 
 TextWrap.propTypes = {
-  viewStyle: PropTypes.object,
-  textStyle: PropTypes.object,
+  viewStyle: StylePropTypes({}),
+  textStyle: StylePropTypes({}),
 }
+
+const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    flexDirection: 'column',
+    alignItems: 'stretch',
+  },
+  splitNavigator: {
+    flex: 1
+  },
+  textWrapView: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 50,
+  },
+  textWrapText: {
+    textAlign: 'center',
+  },
+  todoDetail: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+})
 
 class DemoApp extends React.Component {
 
@@ -67,11 +93,7 @@ class DemoApp extends React.Component {
     const selected = this.props.selected || (this.navigator && !this.navigator.isStacked ? { key: 0 } : null)
     return (
       <SafeAreaView
-        style={{
-          flex: 1,
-          flexDirection: 'column',
-          alignItems: 'stretch',
-        }}
+        style={styles.safeArea}
       >
 
         <SplitNavigator
@@ -141,15 +163,8 @@ class DemoApp extends React.Component {
               component: TextWrap,
               title: props => props.title || 'TextWrap',
               props: {
-                viewStyle: {
-                  flex: 1,
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  paddingHorizontal: 50,
-                },
-                textStyle: {
-                  textAlign: 'center',
-                }
+                viewStyle: styles.textWrapView,
+                textStyle: styles.textWrapText
               },
             },
             TodoList: {
@@ -170,17 +185,11 @@ class DemoApp extends React.Component {
               component: TodoDetail,
               title: props => props.title,
               props: {
-                style: {
-                  flex: 1,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                },
+                style: styles.todoDetail,
               },
             },
           }}
-          style={{
-            flex: 1,
-          }}
+          style={styles.splitNavigator}
         />
       </SafeAreaView>
     )
