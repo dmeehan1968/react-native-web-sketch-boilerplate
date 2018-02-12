@@ -1,6 +1,6 @@
 import React from 'react'
 import { StyleSheet } from 'react-native'
-import { shallow } from 'enzyme';
+import { shallow } from 'enzyme'
 
 import { LockScreen, Clock, Overlay, SlideToUnlock } from '.'
 

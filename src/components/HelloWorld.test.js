@@ -1,6 +1,6 @@
 import React from 'react'
 import { Text, StyleSheet } from 'react-native'
-import { shallow } from 'enzyme';
+import { shallow } from 'enzyme'
 
 import HelloWorld from '../../src/components/HelloWorld'
 

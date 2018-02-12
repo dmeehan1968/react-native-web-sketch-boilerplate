@@ -9,5 +9,5 @@ if (window.document) {
   AppRegistry.runApplication(AppJson.expo.appKey, {
     initialProps: {},
     rootTag: document.getElementById('app')
-  });
+  })
 }
