@@ -1,7 +1,26 @@
 import React from 'react'
-import { Text, View } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import Draggable from './Draggable'
 import Box from './Box'
+
+import designSystem from './designSystem'
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  box: {
+    height: 100,
+    width: 100,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  text: {
+    color: designSystem.colors.boxTextColor
+  }
+})
 
 export default class DraggableBox extends React.Component {
 
@@ -9,30 +28,30 @@ export default class DraggableBox extends React.Component {
     super(props)
     this.state = {
       message: 'Drag Me',
-      color: 'black'
+      color: designSystem.colors.boxDefaultColor
     }
   }
 
+  handleDragStart = () => this.setState({ message: 'Drop Me', color: designSystem.colors.boxDragColor })
+  handleDragEnd = () => this.setState({ message: 'Weeee!!', color: designSystem.colors.boxSpringColor })
+  handleSpringEnd = () => this.setState({ message: 'Drag Me', color: designSystem.colors.boxDefaultColor })
+
   render() {
     return (
-      <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+      <View style={styles.container}>
         <Draggable
-          onDragStart={() => this.setState({ message: 'Drop Me', color: 'blue' })}
-          onDragEnd={() => this.setState({ message: 'Weeee!!', color: 'red' })}
-          onSpringEnd={() => this.setState({ message: 'Drag Me', color: 'black' })}
+          onDragStart={this.handleDragStart}
+          onDragEnd={this.handleDragEnd}
+          onSpringEnd={this.handleSpringEnd}
           springBack
           springSettings={{ speed: 12 }}
         >
           <Box
-            style={{
-              height: 100,
-              width: 100,
+            style={[styles.box, {
               backgroundColor: this.state.color,
-              justifyContent: 'center',
-              alignItems: 'center'
-            }}
+            }]}
           >
-            <Text style={{ color: 'white' }}>{this.state.message}</Text>
+            <Text style={styles.text}>{this.state.message}</Text>
           </Box>
         </Draggable>
       </View>

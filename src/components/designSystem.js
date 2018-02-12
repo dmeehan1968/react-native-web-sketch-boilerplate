@@ -6,6 +6,10 @@ const colors = {
   pressableText: 'blue',
   backgroundColor: 'white',
   overlayColor: 'transparent',
+  boxTextColor: 'white',
+  boxDefaultColor: 'black',
+  boxDragColor: 'blue',
+  boxSpringColor: 'red'
 }
 
 export default {
