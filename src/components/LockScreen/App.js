@@ -8,15 +8,17 @@ export default class LockScreenApp extends React.Component {
     this.state = {}
   }
 
+  handleOnUnlock = () => {
+    this.setState({ message: 'Unlocked' })
+  }
+
   render() {
     return (
       <LockScreen
         message="This is a sample user message.  It will change to 'unlocked' when the slider is moved all the way to the right."
         {...this.props}
         {...this.state}
-        onUnlock={() => {
-          this.setState({ message: 'Unlocked' })
-        }}
+        onUnlock={this.handleOnUnlock}
       />
     )
   }
