@@ -13,31 +13,27 @@ const styles = StyleSheet.create({
   }
 })
 
-export default class Overlay extends React.Component {
+const Overlay = ({style, message}) => (
+  <View style={styles.view}>
+    <Text style={[style,
+      styles.text
+    ]}
+    >{message}</Text>
+  </View>
+)
 
-  static propTypes = {
-    /*
-     * Test message to display in the overlay
-     */
-    message: PropTypes.string.isRequired,
-    /*
-     * Additional styles to apply to the overlay
-     */
-    style: PropTypes.oneOfType([
-      PropTypes.object,
-      PropTypes.number,
-    ]),
-  }
-
-  render() {
-    return (
-      <View style={styles.view}>
-        <Text style={[this.props.style,
-          styles.text
-        ]}
-        >{this.props.message}</Text>
-
-      </View>
-    )
-  }
+Overlay.propTypes = {
+  /*
+   * Test message to display in the overlay
+   */
+  message: PropTypes.string.isRequired,
+  /*
+   * Additional styles to apply to the overlay
+   */
+  style: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.number,
+  ]),
 }
+
+export default Overlay
