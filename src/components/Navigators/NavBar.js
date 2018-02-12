@@ -1,25 +1,47 @@
 import React from 'react'
-import { View, Text } from 'react-native'
+import { View, Text, StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
 
-const NavBar = ({title, backLabel, actionLabel, onBack, style}) => (
-  <View style={{
+import designSystem from '../designSystem'
+
+const styles = StyleSheet.create({
+  view: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    borderBottomColor: '#eee',
+    borderBottomColor: designSystem.colors.separator,
     borderBottomWidth: 1,
     paddingVertical: 10,
-  }}>
+  },
+  backLabel: {
+    fontSize: 24,
+    width: 75,
+    paddingLeft: 10,
+    color: designSystem.colors.pressableText
+  },
+  title: {
+    fontSize: 24,
+    textAlign: 'center',
+    flex: 1,
+  },
+  actionLabel: {
+    width: 75,
+    paddingRight: 10
+  },
+  noBackLabel: {
+    marginLeft: 75,
+  },
+  noActionLabel: {
+    marginRight: 75,
+  }
+})
+
+const NavBar = ({title, backLabel, actionLabel, onBack, style}) => (
+  <View style={styles.view}>
     {backLabel ?
       <Text
         name="backLabel"
-        style={{
-          fontSize: 24,
-          width: 75,
-          paddingLeft: 10,
-          color: 'blue'
-        }}
+        style={styles.backLabel}
         onPress={onBack}
       >
         {backLabel}
@@ -27,21 +49,12 @@ const NavBar = ({title, backLabel, actionLabel, onBack, style}) => (
     : null }
     <Text
       name="title"
-      style={[{
-        fontSize: 24,
-        textAlign: 'center',
-        flex: 1,
-        marginLeft: backLabel ? 0 : 75,
-        marginRight: actionLabel ? 0 : 75,
-      }, style]}
+      style={[styles.title, style, backLabel ? null : styles.noBackLabel, actionLabel ? null : styles.noActionLabel]}
     >
       {title}
     </Text>
     {actionLabel ?
-      <Text style={{
-        width: 75,
-        paddingRight: 10
-      }}>
+      <Text style={styles.actionLabel}>
         {actionLabel}
       </Text>
     : null }

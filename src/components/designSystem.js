@@ -2,7 +2,8 @@
 const colors = {
   selected: '#aaa',
   deselected: 'transparent',
-  separator: '#eee'
+  separator: '#eee',
+  pressableText: 'blue',
 }
 
 export default {
