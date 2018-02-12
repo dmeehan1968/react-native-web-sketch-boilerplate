@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import FlatList from '../Todo/FlatList'
 import DemoItem from './DemoItem'
 import StylePropTypes from '../StylePropTypes'
+import designSystem from '../designSystem'
 
 class DemoItemContainer extends React.PureComponent {
 
@@ -51,7 +52,7 @@ class DemoList extends React.PureComponent {
     <DemoItemContainer
       item={item}
       style={{
-        backgroundColor: this.props.isItemSelected(item) ? '#aaa' : 'transparent'
+        backgroundColor: this.props.isItemSelected(item) ? designSystem.colors.selected : designSystem.colors.deselected
       }}
       onPress={this.props.onItemPress}
     />
