@@ -83,6 +83,13 @@ export default class LockScreen extends React.Component {
     ))
   }
 
+  handleUnlock = () => {
+    if (this.state.locked) {
+      this.props.onUnlock()
+      this.setState({ locked: false })
+    }
+  }
+
   render() {
     return (
       <View name="LockScreen" style={this.styles.lockscreen}>
@@ -92,12 +99,7 @@ export default class LockScreen extends React.Component {
         {this.props.message ? <Overlay message={this.props.message} style={this.styles.overlay} /> : null}
         <SlideToUnlock
           style={this.styles.slider}
-          onUnlock={() => {
-            if (this.state.locked) {
-              this.props.onUnlock()
-              this.setState({ locked: false })
-            }
-          }}
+          onUnlock={this.handleUnlock}
           buttonHeight={50}
         />
       </View>
