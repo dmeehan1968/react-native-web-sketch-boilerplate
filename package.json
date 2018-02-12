@@ -49,10 +49,14 @@
     "web": "webpack-dev-server --config ./web/webpack.config.js --open --inline --hot",
     "web:build": "webpack --config ./web/webpack.config.js",
     "lint": "eslint .",
-    "lint:staged": "lint-staged"
+    "precommit": "lint-staged"
   },
   "lint-staged": {
-    "*.js": "eslint --config ./.eslintrc.precommit"
+    "*.js": [
+      "eslint --config ./.eslintrc.precommit",
+      "npm run test:native -- --bail --findRelatedTests",
+      "npm run test:web -- --bail --findRelatedTests"
+    ]
   },
   "skpm": {
     "main": "react-native-web-sketch-boilerplate.sketchplugin",
@@ -60,7 +64,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run lint:staged && npm run test:native && npm run test:web"
+      "pre-commit": "npm run precommit"
     }
   }
 }
