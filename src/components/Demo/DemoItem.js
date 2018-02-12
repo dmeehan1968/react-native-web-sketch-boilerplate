@@ -1,20 +1,26 @@
 import React from 'react'
-import { TouchableOpacity, Text } from 'react-native'
+import { TouchableOpacity, Text, StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
+
+import designSystem from '../designSystem'
+
+const styles = StyleSheet.create({
+  demoItem: {
+    width: '100%',
+    height: designSystem.list.item.height,
+    borderStyle: 'solid',
+    borderBottomColor: designSystem.list.item.separator.color,
+    borderBottomWidth: designSystem.list.item.separator.width,
+    justifyContent: 'center',
+    padding: 10,
+  }
+})
 
 const DemoItem = ({title, onPress, style}) => (
   <TouchableOpacity
     onPress={onPress}
-    style={{
-      width: '100%',
-      height: 40,
-      borderStyle: 'solid',
-      borderBottomColor: '#eee',
-      borderBottomWidth: 1,
-      justifyContent: 'center',
-      padding: 10,
-      ...style
-    }}>
+    style={[styles.demoItem, style]}
+  >
     <Text>
       {title}
     </Text>
