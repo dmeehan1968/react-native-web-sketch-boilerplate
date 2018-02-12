@@ -1,6 +1,17 @@
 import React from 'react'
-import { Text, View } from 'react-native'
+import { Text, View, StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
+
+const styles = StyleSheet.create({
+  view: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  text: {
+    flex: 1,
+  }
+})
 
 export default class Overlay extends React.Component {
 
@@ -17,18 +28,13 @@ export default class Overlay extends React.Component {
       PropTypes.number,
     ]),
   }
-  
+
   render() {
     return (
-      <View style={{
-        flex: 1,
-        flexDirection: 'row',
-        alignItems: 'center',
-      }}>
+      <View style={styles.view}>
         <Text style={[this.props.style,
-          {
-            flex: 1,
-          }]}
+          styles.text
+        ]}
         >{this.props.message}</Text>
 
       </View>
