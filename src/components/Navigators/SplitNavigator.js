@@ -9,12 +9,34 @@ import ViewsPropTypes from './ViewsPropTypes'
 import designSystem from '../designSystem'
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: 'row',
+  },
   drawer: {
     backgroundColor: designSystem.colors.backgroundColor
   },
   drawerSplit: {
     paddingRight: 10,
-  }
+  },
+  master: {
+    borderRightWidth: 1,
+    borderStyle: 'solid',
+    borderRightColor: designSystem.colors.separator,
+    backgroundColor: designSystem.colors.backgroundColor,
+    height: '100%',
+    width: '100%',
+  },
+  masterSplit: {
+    paddingRight: 10,
+    marginRight: 10,
+    width: '33%',
+  },
+  detail: {
+    flex: 1,
+    flexGrow: 1
+  },
+
 })
 
 export default class SplitNavigator extends React.Component {
@@ -130,6 +152,13 @@ export default class SplitNavigator extends React.Component {
   }
 
   drawerRef = ref => this.drawer = ref
+  masterRef = ref => this.master = ref
+  detailRef = ref => this.detail = ref
+  handleBack = (next, depth) => {
+    depth === 1 && this.drawer ? this.drawer.open() : next()
+  }
+
+  backLabel = depth => depth > (this.isSplit ? 1 : 0) ? '<' : null
 
   renderDrawer() {
     return (
@@ -158,7 +187,7 @@ export default class SplitNavigator extends React.Component {
     return (
       <StackNavigator
         name="masterNavigator"
-        ref={ref => this.master = ref}
+        ref={this.masterRef}
         root={this.props.master}
         views={this.props.views}
         navigator={{
@@ -167,19 +196,7 @@ export default class SplitNavigator extends React.Component {
             this.drawer && this.drawer.close()
           }
         }}
-        style={
-          {
-            borderRightWidth: 1,
-            borderStyle: 'solid',
-            borderRightColor: '#eee',
-            paddingRight: this.isSplit ? 10 : 0,
-            marginRight: this.isSplit ? 10 : 0,
-
-            backgroundColor: 'white',
-            height: '100%',
-            width: this.isSplit ? '33%' : '100%',
-          }
-        }
+        style={[styles.master, this.isSplit ? styles.masterSplit : null]}
       />
     )
   }
@@ -188,17 +205,12 @@ export default class SplitNavigator extends React.Component {
     return (
       <StackNavigator
         name="detailNavigator"
-        ref={ref => this.detail = ref}
+        ref={this.detailRef}
         root={this.props.detail}
         views={this.props.views}
-        style={{
-          flex: 1,
-          flexGrow: 1
-        }}
-        backLabel={depth => depth > (this.isSplit ? 1 : 0) ? '<' : null}
-        onBack={(next, depth) => {
-          depth === 1 && this.drawer ? this.drawer.open() : next()
-        }}
+        style={styles.detail}
+        backLabel={this.backLabel}
+        onBack={this.handleBack}
       />
     )
   }
@@ -210,10 +222,7 @@ export default class SplitNavigator extends React.Component {
         style={
           [
           this.props.style,
-          {
-            flex: 1,
-            flexDirection: 'row',
-          }
+          styles.container
           ]
         }
       >

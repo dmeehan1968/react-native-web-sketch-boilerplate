@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 
 import NavBar from './NavBar'
 import ViewsPropTypes from './ViewsPropTypes'
+import StylePropTypes from '../StylePropTypes'
 
 export default class StackNavigator extends React.Component {
 
@@ -26,10 +27,7 @@ export default class StackNavigator extends React.Component {
     /*
      * Optional styles to be added to the navigator
      */
-    style: PropTypes.oneOfType([
-      PropTypes.object,
-      PropTypes.number,
-    ]),
+    style: StylePropTypes({}),
     /*
      * Optional function to handle what happens when the back button is
      * pressed.  The function is provided a 'next' argument, which is
