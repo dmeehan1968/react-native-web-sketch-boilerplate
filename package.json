@@ -26,6 +26,7 @@
     "enzyme-adapter-react-16": "^1.1.1",
     "eslint-config-react-native": "^2.0.0",
     "eslint-plugin-babel": "^4.1.2",
+    "eslint-plugin-flowtype": "^2.44.0",
     "eslint-plugin-jest": "^21.7.0",
     "flow-bin": "^0.65.0",
     "html-webpack-plugin": "^2.30.1",
