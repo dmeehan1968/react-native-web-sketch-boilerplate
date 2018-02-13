@@ -29,6 +29,7 @@
     "html-webpack-plugin": "^2.30.1",
     "husky": "^0.15.0-rc.6",
     "jest-cli": "^22.1.4",
+    "lint-staged": "^6.1.0",
     "prop-types": "^15.6.0",
     "react-native-scripts": "^1.9.0",
     "react-test-renderer": "^16.2.0",
