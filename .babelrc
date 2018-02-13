@@ -1,5 +1,5 @@
 {
-  "presets": ["env", "react", "react-native"],
+  "presets": ["env", "flow", "react", "react-native"],
   "plugins": [
     "transform-function-bind"
   ],
