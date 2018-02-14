@@ -1,7 +1,7 @@
 {
   "plugins": ["babel", "flowtype"],
   "parser": "babel-eslint",
-  "extends": ["react-native", "plugin:jest/recommended"],
+  "extends": ["react-native", "plugin:jest/recommended", "plugin:flowtype/recommended"],
   "rules": {
     "react/no-multi-comp": "warn",
     "no-invalid-this": "off",
