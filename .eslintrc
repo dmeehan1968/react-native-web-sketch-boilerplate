@@ -8,5 +8,6 @@
     "babel/no-invalid-this": "error",
     "no-console": "warn",
     "semi": ["error", "never"],
+    "import/no-namespace": "off",
     }
 }

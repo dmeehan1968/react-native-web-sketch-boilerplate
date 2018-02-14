@@ -1,7 +1,7 @@
-import React from 'react'
+// @flow
+import * as React from 'react'
 import { SafeAreaView, Text, View, StyleSheet } from 'react-native'
 import { SplitNavigator } from '../Navigators'
-import PropTypes from 'prop-types'
 
 import DraggableBox from '../DraggableBox'
 import HelloWorld from '../HelloWorld'
@@ -61,28 +61,30 @@ const styles = StyleSheet.create({
   },
 })
 
-class DemoApp extends React.Component {
+type Props = {
+  /*
+   * function to handle a demo item being pressed
+   */
+  onDemoItemPress: Function,
+  /*
+   * currently selected item from data
+   */
+  selected: ?Object,
+  /*
+   * handler for navigator changing mode, receives mode and newMode as
+   * arguments
+   */
+  onModeChange: Function,
+}
 
-  static propTypes = {
-    /*
-     * function to handle a demo item being pressed
-     */
-    onDemoItemPress: PropTypes.func.isRequired,
-    /*
-     * currently selected item from data
-     */
-    selected: PropTypes.object,
-    /*
-     * handler for navigator changing mode, receives mode and newMode as
-     * arguments
-     */
-    onModeChange: PropTypes.func.isRequired,
-  }
+class DemoApp extends React.Component<Props> {
 
   static defaultProps = {
     onDemoItemPress: (demo, navigator, props, next) => { next(demo, navigator, props) },
     onModeChange: () => null
   }
+
+  navigator: ?SplitNavigator
 
   // eslint-disable-next-line class-methods-use-this
   onDemoItemPress = (demo, navigator, props) => {
@@ -198,20 +200,26 @@ class DemoApp extends React.Component {
   }
 }
 
-// eslint-disable-next-line react/no-multi-comp
-export default class StatefulDemoApp extends React.Component {
+type StatefulDemoAppState = {
+  selected: ?Object
+}
 
-  constructor(props) {
+// eslint-disable-next-line react/no-multi-comp
+export default class StatefulDemoApp extends React.Component<*, StatefulDemoAppState> {
+
+  constructor(props: *) {
     super(props)
-    this.state = {}
+    this.state = {
+      selected: null
+    }
   }
 
-  handleDemoItemPress = (demo, navigator, props, next) => {
+  handleDemoItemPress = (demo: Object, navigator: Object, props: Object, next: Function) => {
     this.setState(() => ({ selected: demo }))
     next(demo, navigator, props)
   }
 
-  handleModeChange = (mode, newMode) => {
+  handleModeChange = (mode: SplitNavigator.DisplayMode, newMode: SplitNavigator.DisplayMode) => {
     if (mode === SplitNavigator.DisplayMode.Initial || newMode === SplitNavigator.DisplayMode.Stacked) {
       this.setState(() => ({ selected: null }))
     }
