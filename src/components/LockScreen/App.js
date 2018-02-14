@@ -1,12 +1,14 @@
-import React from 'react'
+// @flow
+import * as React from 'react'
 import LockScreen from './LockScreen'
 
-export default class LockScreenApp extends React.Component {
+type State = {
+  message?: string
+}
 
-  constructor(props) {
-    super(props)
-    this.state = {}
-  }
+export default class LockScreenApp extends React.Component<*, State> {
+
+  state = {}
 
   handleOnUnlock = () => {
     this.setState({ message: 'Unlocked' })
