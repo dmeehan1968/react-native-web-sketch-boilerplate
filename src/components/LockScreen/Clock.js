@@ -1,32 +1,38 @@
+// @flow
 import React from 'react'
-import { Text, View, Platform } from 'react-native'
-import PropTypes from 'prop-types'
+import { Text, View, Platform, StyleSheet } from 'react-native'
 
-export default class Clock extends React.Component {
+type Props = {
+  style?: StyleSheet.StyleProps
+}
 
-  static propTypes = {
-    /*
-     * Additional style to apply to the component
-     */
-    style: PropTypes.oneOfType([
-      PropTypes.object,
-      PropTypes.number,
-    ]),
+type State = {
+  time: Date,
+  timer?: IntervalID,   /* global IntervalID */
+}
+
+export default class Clock extends React.PureComponent<Props, State> {
+
+  state = {
+    time: new Date,
+  }
+
+  handleTick = () => {
+    this.setState({ time: new Date })
   }
 
   componentWillMount() {
-    this.setState({
-      time: new Date(),
-      timer: Platform.OS !== 'sketch' ? setInterval(() => {
-        this.setState({ time: new Date })
-      }, 1000) : null
-    })
+    if (Platform.OS !== 'sketch') {
+      this.setState({
+        timer: setInterval(this.handleTick, 1000)
+      })
+    }
   }
 
   componentWillUnmount() {
     if (this.state.timer) {
       clearInterval(this.state.timer)
-      this.setState({ time: null, timer: null })
+      this.setState({ time: undefined, timer: undefined })
     }
   }
 
