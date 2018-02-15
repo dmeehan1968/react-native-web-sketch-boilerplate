@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react'
-import RN, { Animated, Text, View } from 'react-native'
+import { Animated, Text, View } from 'react-native'
 
 import Draggable from '../Draggable'
 
@@ -16,7 +16,7 @@ type Props = {
   /*
    * Background Color for the button
    */
-  buttonColor: number,
+  buttonColor: string,
   /*
    * Background Color for the slider when at zero
    */
@@ -63,7 +63,7 @@ export default class Slider extends React.Component<Props, State> {
     }
   }
 
-  handleLayout = (e: RN.ViewLayoutEvent) => {
+  handleLayout = (e: View.ViewLayoutEvent) => {
     this.setState({ maxX: e.nativeEvent.layout.width })
   }
 
