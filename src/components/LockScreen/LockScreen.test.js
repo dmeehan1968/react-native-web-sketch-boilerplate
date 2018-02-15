@@ -1,12 +1,16 @@
-import React from 'react'
+// @flow
+import * as React from 'react'
 import { StyleSheet } from 'react-native'
-import { shallow } from 'enzyme'
+import { shallow, ShallowWrapper} from 'enzyme'
 
 import { LockScreen, Clock, Overlay, SlideToUnlock } from '.'
 
 describe('LockScreen', () => {
 
   class SUT {
+
+    sut: ShallowWrapper
+    
     constructor(props) {
       this.sut = shallow(<LockScreen {...props} />)
     }
