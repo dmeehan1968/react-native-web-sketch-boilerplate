@@ -1,44 +1,31 @@
-import React from 'react'
+// @flow
+import * as React from 'react'
 import { View, StyleSheet } from 'react-native'
-import PropTypes from 'prop-types'
 
 import SlideToUnlock from './SlideToUnlock'
 import Clock from './Clock'
 import Overlay from './Overlay'
 
-export default class LockScreen extends React.Component {
+type Props = {
+  /*
+   * Optional text message to display in the center of the lockscreen
+   */
+  message?: string,
+  /*
+   * Function handler for when unlock occurs
+   */
+  onUnlock: Function,
+  /*
+   * Additional styles to apply to each sub component
+   */
+  styles?: StyleSheet.Styles,
+}
 
-  static propTypes = {
-    /*
-     * Optional text message to display in the center of the lockscreen
-     */
-    message: PropTypes.string,
-    /*
-     * Function handler for when unlock occurs
-     */
-    onUnlock: PropTypes.func,
-    /*
-     * Additionl styles to apply to each sub component
-     */
-    styles: PropTypes.shape({
-      /*
-       * Styles for the lockscreen container
-       */
-      lockscreen: PropTypes.object,
-      /*
-       * Styles for the clock
-       */
-      clock: PropTypes.object,
-      /*
-       * Styles for the text overlay
-       */
-      overlay: PropTypes.object,
-      /*
-       * Styles for the slider
-       */
-      slider: PropTypes.object,
-    }),
-  }
+type State = {
+  locked: boolean
+}
+
+export default class LockScreen extends React.Component<Props, State> {
 
   static defaultProps = {
     styles: {
@@ -50,12 +37,10 @@ export default class LockScreen extends React.Component {
     onUnlock: () => null
   }
 
-  constructor(props) {
-    super(props)
-    this.state = { locked: true }
-  }
+  state = { locked: true }
+  _styles: ?StyleSheet.Styles
 
-  get styles() {
+  get styles(): StyleSheet.Styles {
     return this._styles || (this._styles = StyleSheet.create({
         lockscreen: {
           flex: 1,
@@ -64,20 +49,20 @@ export default class LockScreen extends React.Component {
           alignItems: 'center',
           paddingTop: 50,
           paddingBottom: 50,
-          ...this.props.styles.lockscreen
+          ...this.props.styles && this.props.styles.lockscreen || {}
         },
         clock: {
           fontSize: 30,
-          ...this.props.styles.clock
+          ...this.props.styles && this.props.styles.clock || {}
         },
         overlay: {
           textAlign: 'center',
           fontSize: 20,
-          ...this.props.styles.overlay
+          ...this.props.styles && this.props.styles.overlay || {}
         },
         slider: {
           width: '80%',
-          ...this.props.styles.slider
+          ...this.props.styles && this.props.styles.slider || {}
         }
       }
     ))
