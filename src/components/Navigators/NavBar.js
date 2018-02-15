@@ -44,7 +44,7 @@ type Props = {
   /*
    * Optional label for the back button (hidden if no label)
    */
-  backLabel?: string,
+  backLabel?: ?string,
   /*
    * Optional label for the action button (hidden if no label)
    */

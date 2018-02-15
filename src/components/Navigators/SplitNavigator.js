@@ -4,6 +4,7 @@ import { View, Dimensions, StyleSheet } from 'react-native'
 
 import StackNavigator from './StackNavigator'
 import Drawer from '../Drawer'
+import { type ViewsType } from './ViewsType'
 
 import designSystem from '../designSystem'
 
@@ -38,13 +39,6 @@ const styles = StyleSheet.create({
 
 })
 
-type NavView = {
-  component: Function,
-  title: Function | string,
-  props?: Object,
-  handlers?: { [string]: Function }
-}
-
 type Props = {
   /*
    * function to determine if the navigator should be in stack mode
@@ -78,7 +72,7 @@ type Props = {
    * detail view
    */
   detail: string,
-  views: { [string]: NavView },
+  views: ViewsType,
   /*
    * Optional styles to be passed to the view
    */
@@ -178,9 +172,9 @@ export default class SplitNavigator extends React.Component<Props, State> {
   master: ?StackNavigator
   detail: ?StackNavigator
 
-  drawerRef = (ref: Drawer) => this.drawer = ref
-  masterRef = (ref: StackNavigator) => this.master = ref
-  detailRef = (ref: StackNavigator) => this.detail = ref
+  drawerRef = (ref: ?Drawer) => this.drawer = ref
+  masterRef = (ref: ?StackNavigator) => (this.master = ref)
+  detailRef = (ref: ?StackNavigator) => (this.detail = ref)
 
   handleBack = (next: Function, depth: number) => {
     depth === 1 && this.drawer ? this.drawer.open() : next()
