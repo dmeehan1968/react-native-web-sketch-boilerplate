@@ -1,7 +1,7 @@
 // @flow
 import * as React from 'react'
 import { SafeAreaView, Text, View, StyleSheet } from 'react-native'
-import { SplitNavigator } from '../Navigators'
+import { SplitNavigator, type DisplayMode } from '../Navigators'
 
 import DraggableBox from '../DraggableBox'
 import HelloWorld from '../HelloWorld'
@@ -219,7 +219,7 @@ export default class StatefulDemoApp extends React.Component<*, StatefulDemoAppS
     next(demo, navigator, props)
   }
 
-  handleModeChange = (mode: SplitNavigator.DisplayMode, newMode: SplitNavigator.DisplayMode) => {
+  handleModeChange = (mode: DisplayMode, newMode: DisplayMode) => {
     if (mode === SplitNavigator.DisplayMode.Initial || newMode === SplitNavigator.DisplayMode.Stacked) {
       this.setState(() => ({ selected: null }))
     }
