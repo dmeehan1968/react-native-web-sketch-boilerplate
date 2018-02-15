@@ -1,6 +1,6 @@
-import React from 'react'
+// @flow
+import * as React from 'react'
 import { View, Text, StyleSheet } from 'react-native'
-import PropTypes from 'prop-types'
 
 import designSystem from '../designSystem'
 
@@ -36,7 +36,30 @@ const styles = StyleSheet.create({
   }
 })
 
-const NavBar = ({title, backLabel, actionLabel, onBack, style}) => (
+type Props = {
+  /*
+   * Title text for the NavBar
+   */
+  title: string,
+  /*
+   * Optional label for the back button (hidden if no label)
+   */
+  backLabel?: string,
+  /*
+   * Optional label for the action button (hidden if no label)
+   */
+  actionLabel?: string,
+  /*
+   * Function to handle when the back button is pressed
+   */
+  onBack: Function,
+  /*
+   * Addtional styles to apply to the NavBar title
+   */
+  style?: StyleSheet.StyleProp,
+}
+
+const NavBar = ({title, backLabel, actionLabel, onBack, style}: Props) => (
   <View style={styles.view}>
     {backLabel ?
       <Text
@@ -60,31 +83,5 @@ const NavBar = ({title, backLabel, actionLabel, onBack, style}) => (
     : null }
   </View>
 )
-
-NavBar.propTypes = {
-  /*
-   * Title text for the NavBar
-   */
-  title: PropTypes.string.isRequired,
-  /*
-   * Optional label for the back button (hidden if no label)
-   */
-  backLabel: PropTypes.string,
-  /*
-   * Optional label for the action button (hidden if no label)
-   */
-  actionLabel: PropTypes.string,
-  /*
-   * Function to handle when the back button is pressed
-   */
-  onBack: PropTypes.func.isRequired,
-  /*
-   * Addtional styles to apply to the NavBar title
-   */
-  style: PropTypes.oneOfType([
-    PropTypes.object,
-    PropTypes.number,
-  ]),
-}
 
 export default NavBar
