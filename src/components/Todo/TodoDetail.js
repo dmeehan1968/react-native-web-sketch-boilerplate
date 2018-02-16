@@ -1,8 +1,19 @@
+// @flow
 import React from 'react'
-import { Text, View } from 'react-native'
-import PropTypes from 'prop-types'
+import { Text, View, StyleSheet } from 'react-native'
 
-const TodoDetail = ({style, title}) => (
+type Props = {
+  /*
+   * Optional styles to be passed to the detail view
+   */
+  style: StyleSheet.StyleProp,
+  /*
+   * Title of the item as string
+   */
+  title?: string,
+}
+
+const TodoDetail = ({style, title}: Props) => (
   <View
     style={style}
   >
@@ -11,19 +22,5 @@ const TodoDetail = ({style, title}) => (
     </Text>
   </View>
 )
-
-TodoDetail.propTypes = {
-  /*
-   * Optional styles to be passed to the detail view
-   */
-  style: PropTypes.oneOfType([
-    PropTypes.object,
-    PropTypes.number,
-  ]),
-  /*
-   * Title of the item as string
-   */
-  title: PropTypes.string,
-}
 
 export default TodoDetail
