@@ -54,11 +54,11 @@ type Props = {
   /*
    * The animated value
    */
-  animatedValue: Animated.ValueXY,
+  animatedValue?: Animated.ValueXY,
   /*
    * Optional styles for the container
    */
-  style: StyleSheet.StyleProp,
+  style?: StyleSheet.StyleProp,
 
   children?: React.Node,
 }

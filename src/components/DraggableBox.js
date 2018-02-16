@@ -1,4 +1,5 @@
-import React from 'react'
+// @flow
+import * as React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import Draggable from './Draggable'
 import Box from './Box'
@@ -22,9 +23,18 @@ const styles = StyleSheet.create({
   }
 })
 
-export default class DraggableBox extends React.Component {
+type Props = {
 
-  constructor(props) {
+}
+
+type State = {
+  message: string,
+  color: string,
+}
+
+export default class DraggableBox extends React.Component<Props, State> {
+
+  constructor(props: Props) {
     super(props)
     this.state = {
       message: 'Drag Me',
