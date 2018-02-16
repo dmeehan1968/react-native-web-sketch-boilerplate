@@ -1,7 +1,7 @@
-import React from 'react'
-import { SafeAreaView, Text, View, StyleSheet } from 'react-native'
-import { SplitNavigator } from '../Navigators'
-import PropTypes from 'prop-types'
+// @flow
+import * as React from 'react'
+import { SafeAreaView, StyleSheet } from 'react-native'
+import { SplitNavigator, type DisplayMode } from '../Navigators'
 
 import DraggableBox from '../DraggableBox'
 import HelloWorld from '../HelloWorld'
@@ -9,32 +9,7 @@ import LockScreenApp from '../LockScreen'
 import TodoList from '../Todo/TodoList'
 import TodoDetail from '../Todo/TodoDetail'
 import DemoList from './DemoList'
-import StylePropTypes from '../StylePropTypes'
-
-const TextWrap = ({ viewStyle, textStyle }) => (
-    <View style={viewStyle}>
-      <Text style={textStyle}>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-        Aliquam tellus turpis, scelerisque vel elementum nec, consectetur in nunc.
-        Interdum et malesuada fames ac ante ipsum primis in faucibus.
-        Donec vulputate ut ligula vitae semper. Etiam cursus risus et metus
-        auctor, at efficitur ex interdum. Vestibulum ante ipsum primis in
-        faucibus orci luctus et ultrices posuere cubilia Curae; Cras lacinia
-        tortor sed suscipit lobortis. Aliquam pharetra sagittis magna id iaculis.
-        Curabitur pretium fermentum nisl, convallis posuere ante rutrum vel.
-        Mauris sit amet tellus id sapien mollis eleifend et eget dolor. Maecenas
-        libero dui, ornare ut justo quis, iaculis dictum ex. Nam tristique,
-        sapien quis iaculis tincidunt, orci augue vestibulum nulla, eget
-        consequat mi lorem convallis velit. Integer pellentesque faucibus dolor,
-        et pellentesque odio vehicula a.
-      </Text>
-    </View>
-  )
-
-TextWrap.propTypes = {
-  viewStyle: StylePropTypes({}),
-  textStyle: StylePropTypes({}),
-}
+import TextWrap from '../TextWrap'
 
 const styles = StyleSheet.create({
   safeArea: {
@@ -61,28 +36,30 @@ const styles = StyleSheet.create({
   },
 })
 
-class DemoApp extends React.Component {
+type Props = {
+  /*
+   * function to handle a demo item being pressed
+   */
+  onDemoItemPress: Function,
+  /*
+   * currently selected item from data
+   */
+  selected: ?Object,
+  /*
+   * handler for navigator changing mode, receives mode and newMode as
+   * arguments
+   */
+  onModeChange: Function,
+}
 
-  static propTypes = {
-    /*
-     * function to handle a demo item being pressed
-     */
-    onDemoItemPress: PropTypes.func.isRequired,
-    /*
-     * currently selected item from data
-     */
-    selected: PropTypes.object,
-    /*
-     * handler for navigator changing mode, receives mode and newMode as
-     * arguments
-     */
-    onModeChange: PropTypes.func.isRequired,
-  }
+class DemoApp extends React.Component<Props> {
 
   static defaultProps = {
     onDemoItemPress: (demo, navigator, props, next) => { next(demo, navigator, props) },
     onModeChange: () => null
   }
+
+  navigator: ?SplitNavigator
 
   // eslint-disable-next-line class-methods-use-this
   onDemoItemPress = (demo, navigator, props) => {
@@ -198,20 +175,26 @@ class DemoApp extends React.Component {
   }
 }
 
-// eslint-disable-next-line react/no-multi-comp
-export default class StatefulDemoApp extends React.Component {
+type StatefulDemoAppState = {
+  selected: ?Object
+}
 
-  constructor(props) {
+// eslint-disable-next-line react/no-multi-comp
+export default class StatefulDemoApp extends React.Component<*, StatefulDemoAppState> {
+
+  constructor(props: *) {
     super(props)
-    this.state = {}
+    this.state = {
+      selected: null
+    }
   }
 
-  handleDemoItemPress = (demo, navigator, props, next) => {
+  handleDemoItemPress = (demo: Object, navigator: Object, props: Object, next: Function) => {
     this.setState(() => ({ selected: demo }))
     next(demo, navigator, props)
   }
 
-  handleModeChange = (mode, newMode) => {
+  handleModeChange = (mode: DisplayMode, newMode: DisplayMode) => {
     if (mode === SplitNavigator.DisplayMode.Initial || newMode === SplitNavigator.DisplayMode.Stacked) {
       this.setState(() => ({ selected: null }))
     }

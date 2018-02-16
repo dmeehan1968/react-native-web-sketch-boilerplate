@@ -1,11 +1,11 @@
-import React from 'react'
+// @flow
+import * as React from 'react'
 import { View, Dimensions, StyleSheet } from 'react-native'
-import PropTypes from 'prop-types'
 
 import StackNavigator from './StackNavigator'
 import Drawer from '../Drawer'
+import { type ViewsType } from './ViewsType'
 
-import ViewsPropTypes from './ViewsPropTypes'
 import designSystem from '../designSystem'
 
 const styles = StyleSheet.create({
@@ -39,95 +39,112 @@ const styles = StyleSheet.create({
 
 })
 
-export default class SplitNavigator extends React.Component {
+type Props = {
+  /*
+   * function to determine if the navigator should be in stack mode
+   * (master obscures detail).  Receives an object
+   * containing 'width' and 'height' properties of the current window.
+   *
+   * If omitted, windows less than 500px in width will be in stacked mode
+   */
+  shouldStack: Function,
+  /*
+   * function to determine if the navigator should be in split mode
+   * (both master and detail permanently visible).  Receives an object
+   * containing 'width' and 'height' properties of the current window.
+   *
+   * If omitted, windows over 800px in width will be in split mode
+   */
+  shouldSplit: Function,
+  /*
+   * Function to handle when the split navigator mode changes.  Receives
+   * the old mode and new mode as arguments.  See SplitNavigator.DisplayMode
+   * for values
+   */
+  onModeChange: Function,
+  /*
+   * Name of the property supplied in the views property for the initial
+   * master view
+   */
+  master: string,
+  /*
+   * Name of the property supplied in the views property for the initial
+   * detail view
+   */
+  detail: string,
+  views: ViewsType,
+  /*
+   * Optional styles to be passed to the view
+   */
+  style?: StyleSheet.StyleProp,
 
-  static propTypes = {
-    /*
-     * function to determine if the navigator should be in stack mode
-     * (master obscures detail).  Receives an object
-     * containing 'width' and 'height' properties of the current window.
-     *
-     * If omitted, windows less than 500px in width will be in stacked mode
-     */
-    shouldStack: PropTypes.func,
-    /*
-     * function to determine if the navigator should be in split mode
-     * (both master and detail permanently visible).  Receives an object
-     * containing 'width' and 'height' properties of the current window.
-     *
-     * If omitted, windows over 800px in width will be in split mode
-     */
-    shouldSplit: PropTypes.func,
-    /*
-     * Function to handle when the split navigator mode changes.  Receives
-     * the old mode and new mode as arguments.  See SplitNavigator.DisplayMode
-     * for values
-     */
-    onModeChange: PropTypes.func,
-    /*
-     * Name of the property supplied in the views property for the initial
-     * master view
-     */
-    master: PropTypes.string.isRequired,
-    /*
-     * Name of the property supplied in the views property for the initial
-     * detail view
-     */
-    detail: PropTypes.string.isRequired,
-    views: ViewsPropTypes,
-    /*
-     * Optional styles to be passed to the view
-     */
-    style: PropTypes.oneOfType([
-      PropTypes.object,
-      PropTypes.number,
-    ]),
-  }
+}
+
+export type DisplayMode = 'Initial' | 'Stacked' | 'Drawer' | 'Split'
+
+type ViewPort = {
+  width: number,
+  height: number
+}
+
+type State = {
+  displayMode: DisplayMode,
+  window: ViewPort
+}
+
+type DimensionsChangeEvent = {
+  window?: ViewPort,    // eslint-disable-line react/no-unused-prop-types
+  screen?: ViewPort,    // eslint-disable-line react/no-unused-prop-types
+}
+
+export default class SplitNavigator extends React.Component<Props, State> {
 
   static defaultProps = {
-    shouldStack: window => window.width <= 500,
-    shouldSplit: window => window.width >= 800
+    shouldStack: (window: ViewPort) => window.width <= 500,
+    shouldSplit: (window: ViewPort) => window.width >= 800
   }
 
-  static DisplayMode = Object.freeze({
-    Initial: Symbol('Initial'),
-    Stacked: Symbol('Stacked'),
-    Drawer: Symbol('Drawer'),
-    Split: Symbol('Split')
-  })
+  static DisplayMode: { [DisplayMode]: DisplayMode } = {
+    Initial: 'Initial',
+    Stacked: 'Stacked',
+    Drawer: 'Drawer',
+    Split: 'Split'
+  }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      displayMode: SplitNavigator.DisplayMode.Initial
-    }
+  state = {
+    displayMode: SplitNavigator.DisplayMode.Initial,
+    window: { width: 0, height: 0 },
   }
 
   componentWillMount() {
-    this.onDimensionsChange({ window: Dimensions.get('window') })
-    Dimensions.addEventListener('change', ::this.onDimensionsChange)
+    this.onDimensionsChange({
+      window: Dimensions.get('window'),
+    })
+    Dimensions.addEventListener('change', this.onDimensionsChange)
   }
 
   componentWillUnmount() {
-    Dimensions.removeEventListener('change', ::this.onDimensionsChange)
+    Dimensions.removeEventListener('change', this.onDimensionsChange)
   }
 
-  onDimensionsChange({ window }) {
-    this.setState(state => {
-      const newState = {
-        window,
-        displayMode: this.getDisplayModeForWindow(window)
-      }
+  onDimensionsChange = ({ window }: DimensionsChangeEvent) => {
+    if (window) {
+      this.setState(state => {
+        const newState = {
+          window,
+          displayMode: this.getDisplayModeForWindow(window)
+        }
 
-      if (state.displayMode !== newState.displayMode) {
-        this.props.onModeChange(state.displayMode, newState.displayMode)
-      }
+        if (state.displayMode !== newState.displayMode) {
+          this.props.onModeChange(state.displayMode, newState.displayMode)
+        }
 
-      return newState
-    })
+        return newState
+      })
+    }
   }
 
-  getDisplayModeForWindow(window) {
+  getDisplayModeForWindow(window: ViewPort) {
     if (this.props.shouldStack(window)) {
       return SplitNavigator.DisplayMode.Stacked
     }
@@ -139,26 +156,31 @@ export default class SplitNavigator extends React.Component {
     return SplitNavigator.DisplayMode.Drawer
   }
 
-  get isSplit() {
+  get isSplit(): boolean {
     return this.state.displayMode === SplitNavigator.DisplayMode.Split
   }
 
-  get isStacked() {
+  get isStacked(): boolean {
     return this.state.displayMode === SplitNavigator.DisplayMode.Stacked
   }
 
-  get isDrawer() {
+  get isDrawer(): boolean {
     return this.state.displayMode === SplitNavigator.DisplayMode.Drawer
   }
 
-  drawerRef = ref => this.drawer = ref
-  masterRef = ref => this.master = ref
-  detailRef = ref => this.detail = ref
-  handleBack = (next, depth) => {
+  drawer: ?Drawer
+  master: ?StackNavigator
+  detail: ?StackNavigator
+
+  drawerRef = (ref: ?Drawer) => this.drawer = ref
+  masterRef = (ref: ?StackNavigator) => (this.master = ref)
+  detailRef = (ref: ?StackNavigator) => (this.detail = ref)
+
+  handleBack = (next: Function, depth: number) => {
     depth === 1 && this.drawer ? this.drawer.open() : next()
   }
 
-  backLabel = depth => depth > (this.isSplit ? 1 : 0) ? '<' : null
+  backLabel = (depth: number) => depth > (this.isSplit ? 1 : 0) ? '<' : null
 
   renderDrawer() {
     return (
@@ -192,7 +214,7 @@ export default class SplitNavigator extends React.Component {
         views={this.props.views}
         navigator={{
           navigate: (name, props) => {
-            this.detail.navigate(name, props, 0)
+            this.detail && this.detail.navigate(name, props, 0)
             this.drawer && this.drawer.close()
           }
         }}

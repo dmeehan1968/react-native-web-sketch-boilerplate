@@ -1,8 +1,7 @@
-import React from 'react'
+// @flow
+import * as React from 'react'
 import { Animated, TouchableOpacity, View, Dimensions, StyleSheet } from 'react-native'
-import PropTypes from 'prop-types'
 
-import StylePropTypes from './StylePropTypes'
 import designSystem from './designSystem'
 
 const styles = StyleSheet.create({
@@ -20,61 +19,63 @@ const styles = StyleSheet.create({
   }
 })
 
-export default class Drawer extends React.Component {
+type Props = {
+  /*
+   * open: The initial state of the drawer
+   */
+  open: boolean,
+  /*
+   * min: minimum width is pixels of the drawer
+   */
+  minWidth: number,
+  /*
+   * max: maximum width of the drawer
+   */
+  maxWidth: number,
+  /*
+   * width: number | string
+   *
+   * Width of the drawer, either in pixels expressed as a number,
+   * or as a percentage of the window width
+   */
+  width: number | string,
+  /*
+   * options applied to the 'spring' animation on both open and close
+   */
+  animationOptions?: Animated.SpringAnimationConfig,
+  /*
+   * options applied to the 'spring' animation on open
+   */
+  animationOptionsOnOpen?: Animated.SpringAnimationConfig,
+  /*
+   * options applied to the 'spring' animation on close
+   */
+  animationOptionsOnClose?: Animated.SpringAnimationConfig,
+  /*
+   * animateOnOpen: boolean
+   *
+   * Whether to apply an animation when opening the drawer
+   */
+  animateOnOpen: boolean,
+  /*
+   * animateOnClose: boolean
+   *
+   * Whether to apply an animation when closing the drawer
+   */
+  animateOnClose: boolean,
+  /*
+   * Optional styles to pass to the container
+   */
+  style?: StyleSheet.StyleProp,
+  children?: React.Element<any>,
+}
 
-  static propTypes = {
-    /*
-     * open: The initial state of the drawer
-     */
-    open: PropTypes.bool,
-    /*
-     * min: minimum width is pixels of the drawer
-     */
-    minWidth: PropTypes.number,
-    /*
-     * max: maximum width of the drawer
-     */
-    maxWidth: PropTypes.number,
-    /*
-     * width: number | string
-     *
-     * Width of the drawer, either in pixels expressed as a number,
-     * or as a percentage of the window width
-     */
-    width: PropTypes.oneOfType([
-      PropTypes.number,
-      PropTypes.string,
-    ]),
-    /*
-     * options applied to the 'spring' animation on both open and close
-     */
-    animationOptions: PropTypes.object,
-    /*
-     * options applied to the 'spring' animation on open
-     */
-    animationOptionsOnOpen: PropTypes.object,
-    /*
-     * options applied to the 'spring' animation on close
-     */
-    animationOptionsOnClose: PropTypes.object,
-    /*
-     * animateOnOpen: boolean
-     *
-     * Whether to apply an animation when opening the drawer
-     */
-    animateOnOpen: PropTypes.bool,
-    /*
-     * animateOnClose: boolean
-     *
-     * Whether to apply an animation when closing the drawer
-     */
-    animateOnClose: PropTypes.bool,
-    /*
-     * Optional styles to pass to the container
-     */
-    style: StylePropTypes({}),
-    children: PropTypes.node,
-  }
+type State = {
+  isOpen: boolean,
+  window?: View.ViewLayout
+}
+
+export default class Drawer extends React.Component<Props, State> {
 
   static defaultProps = {
     minWidth: 300,
@@ -84,12 +85,15 @@ export default class Drawer extends React.Component {
     animateOnClose: true
   }
 
-  constructor(props) {
+  onDimensionsChange: (View.ViewLayoutEvent) => void
+  animatedOffsetX: Animated.Value
+
+  constructor(props: Props) {
     super(props)
     this.state = {
       isOpen: this.props.open || false
     }
-    this.onDimensionsChange = ::this.onDimensionsChange
+    this.onDimensionsChange = this.onDimensionsChange
   }
 
   componentWillMount() {
@@ -102,7 +106,7 @@ export default class Drawer extends React.Component {
     Dimensions.removeEventListener('change', this.onDimensionsChange)
   }
 
-  onDimensionsChange({ window }) {
+  onDimensionsChange = ({ window }: View.ViewLayoutEvent) => {
     this.animatedOffsetX.setValue(this.state.isOpen ? 0 : -window.width)
     this.setState({ window })
   }
@@ -125,7 +129,7 @@ export default class Drawer extends React.Component {
 
   close() {
     this.setState({ isOpen: false })
-    const toValue = -this.state.window.width
+    const toValue = this.state.window ? -this.state.window.width : 0
 
     if (this.props.animateOnClose) {
       Animated.spring(this.animatedOffsetX, {
@@ -149,7 +153,7 @@ export default class Drawer extends React.Component {
 
       const requestedWidth = width.split('')
       if (requestedWidth.slice(-1).pop() === '%') {
-        result = Math.round(this.state.window.width * (parseFloat(requestedWidth.slice(0, -1).join('') / 100)))
+        result = Math.round((this.state.window ? this.state.window.width : 0) * (parseFloat(requestedWidth.slice(0, -1).join('')) / 100))
       } else {
         result = parseInt(width)
       }

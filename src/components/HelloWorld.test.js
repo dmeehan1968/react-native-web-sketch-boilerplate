@@ -1,12 +1,16 @@
+// @flow
 import React from 'react'
 import { Text, StyleSheet } from 'react-native'
-import { shallow } from 'enzyme'
+import { shallow, ShallowWrapper } from 'enzyme'
 
 import HelloWorld from '../../src/components/HelloWorld'
 
 describe('HelloWorld', () => {
 
   class SUT {
+
+    sut: ShallowWrapper
+
     constructor() {
       this.sut = shallow(<HelloWorld />)
     }

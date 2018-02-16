@@ -1,18 +1,24 @@
+// @flow
 import React from 'react'
-import PropTypes from 'prop-types'
+import { StyleSheet } from 'react-native'
 
 import FlatList from '../Todo/FlatList'
 import DemoItem from './DemoItem'
-import StylePropTypes from '../StylePropTypes'
 import designSystem from '../designSystem'
 
-class DemoItemContainer extends React.PureComponent {
+type Demo = {
+  key: number,
+  title: string,
+  view: string,
+}
 
-  static propTypes = {
-    style: StylePropTypes({}),
-    onPress: PropTypes.func.isRequired,
-    item: PropTypes.object.isRequired,
-  }
+type DemoItemContainerProps = {
+  style?: StyleSheet.StyleProp,
+  onPress: Function,
+  item: Demo,
+}
+
+class DemoItemContainer extends React.PureComponent<DemoItemContainerProps> {
 
   handleOnPress = () => this.props.onPress(this.props.item)
 
@@ -27,26 +33,26 @@ class DemoItemContainer extends React.PureComponent {
   }
 }
 
-class DemoList extends React.PureComponent {
+type DemoListProps = {
+  /*
+   * Array of data to that is used to populate the list
+   */
+  data: Array<Demo>,
+  /*
+   * Extra data used to trigger render
+   */
+  extraData: any,
+  /*
+   * Function to handle when an item is pressed
+   */
+  onItemPress: Function,
+  /*
+   * Function to determine if an item is a selected item
+   */
+  isItemSelected: Function,
+}
 
-  static propTypes = {
-    /*
-     * Array of data to that is used to populate the list
-     */
-    data: PropTypes.array.isRequired,
-    /*
-     * Extra data used to trigger render
-     */
-    extraData: PropTypes.any,
-    /*
-     * Function to handle when an item is pressed
-     */
-    onItemPress: PropTypes.func.isRequired,
-    /*
-     * Function to determine if an item is a selected item
-     */
-    isItemSelected: PropTypes.func.isRequired,
-  }
+class DemoList extends React.PureComponent<DemoListProps> {
 
   renderItem = ({item}) => (
     <DemoItemContainer
@@ -69,39 +75,44 @@ class DemoList extends React.PureComponent {
   }
 }
 
-export default class SelectableDemoList extends React.PureComponent {
+type SelectableDemoListProps = {
+  /*
+   * The currently selected item
+   */
+  selected?: any,
+  /*
+   * Array of data to that is used to populate the list
+   */
+  data: Array<Demo>,
+  /*
+   * Function to handle with an item is pressed
+   */
+  onItemPress: Function,
 
-  static propTypes = {
-    /*
-     * The currently selected item
-     */
-    selected: PropTypes.any,
-    /*
-     * Array of data to that is used to populate the list
-     */
-    data: PropTypes.any,
-    /*
-     * Function to handle with an item is pressed
-     */
-    onItemPress: PropTypes.func.isRequired,
-  }
+}
 
-  constructor(props) {
+type SelectableDemoListState = {
+  selected: any,
+}
+
+export default class SelectableDemoList extends React.PureComponent<SelectableDemoListProps, SelectableDemoListState> {
+
+  constructor(props: SelectableDemoListProps) {
     super(props)
     this.state = {
       selected: this.props.selected
     }
   }
 
-  componentWillReceiveProps(newProps) {
+  componentWillReceiveProps(newProps: SelectableDemoListProps) {
     this.setState({ selected: newProps.selected })
   }
 
-  onIsItemSelected = item => (
+  onIsItemSelected = (item: Demo) => (
     this.state.selected && item.key === this.state.selected.key
   )
 
-  handleOnItemPress = item => {
+  handleOnItemPress = (item: Demo) => {
     this.setState({selected: item})
     this.props.onItemPress(item)
   }

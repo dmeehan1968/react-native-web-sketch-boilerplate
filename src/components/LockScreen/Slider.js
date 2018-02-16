@@ -1,68 +1,77 @@
-import React from 'react'
+// @flow
+import * as React from 'react'
 import { Animated, Text, View } from 'react-native'
-import PropTypes from 'prop-types'
 
 import Draggable from '../Draggable'
 
-export default class Slider extends React.Component {
+type Props = {
+  /*
+   * X offset for the slider button
+   */
+  left: number,
+  /*
+   * Height of the button in pixels
+   */
+  buttonHeight: number,
+  /*
+   * Background Color for the button
+   */
+  buttonColor: string,
+  /*
+   * Background Color for the slider when at zero
+   */
+  sliderFromColor: string,
+  /*
+   * Background color for the slider when at max
+   */
+  sliderToColor: string,
+  /*
+   * Color for the text messge shown in the slider
+   */
+  textColor: string,
+  /*
+   * Text message to display in the slider
+   */
+  message: string,
+  /*
+   * Function to handle when the slider is moved, receives the percentage
+   * of the distance from the base to max
+   */
+  onSlide: Function,
+}
 
-  static propTypes = {
-    /*
-     * X offset for the slider button
-     */
-    left: PropTypes.number.isRequired,
-    /*
-     * Height of the button in pixels
-     */
-    buttonHeight: PropTypes.number.isRequired,
-    /*
-     * Background Color for the button
-     */
-    buttonColor: PropTypes.string.isRequired,
-    /*
-     * Background Color for the slider when at zero
-     */
-    sliderFromColor: PropTypes.string.isRequired,
-    /*
-     * Background color for the slider when at max
-     */
-    sliderToColor: PropTypes.string.isRequired,
-    /*
-     * Color for the text messge shown in the slider
-     */
-    textColor: PropTypes.string.isRequired,
-    /*
-     * Text message to display in the slider
-     */
-    message: PropTypes.string.isRequired,
-    /*
-     * Function to handle when the slider is moved, receives the percentage
-     * of the distance from the base to max
-     */
-    onSlide: PropTypes.func.isRequired,
-  }
+type State = {
+  maxX: number
+}
+
+export default class Slider extends React.Component<Props, State> {
 
   static defaultProps = {
     onSlide: () => null
   }
 
-  constructor(props) {
+  state = {
+    maxX: 0
+  }
+
+  animatedValue: ?Animated.ValueXY
+
+  constructor(props: Props) {
     super(props)
     if (Animated) {
       this.animatedValue = new Animated.ValueXY()
     }
-    this.state = {}
   }
 
-  handleLayout = (e) => {
+  handleLayout = (e: View.ViewLayoutEvent) => {
     this.setState({ maxX: e.nativeEvent.layout.width })
   }
 
-  constrainX = x => x.setValue(Math.min(Math.max(0,x._value),this.state.maxX-this.props.buttonHeight))
+  constrainX = (x: Animated.Value) => x.setValue(Math.min(Math.max(0,x._value),this.state.maxX-this.props.buttonHeight))
 
-  constrainY = y => y.setValue(0)
+  constrainY = (y: Animated.Value) => y.setValue(0)
 
-  handleValueChange = animatedValueXY => {
+  handleValueChange = (animatedValueXY: Animated.ValueXY) => {
     if (this.props.onSlide) {
       this.props.onSlide(animatedValueXY.x._value / (this.state.maxX - this.props.buttonHeight))
     }
@@ -76,6 +85,7 @@ export default class Slider extends React.Component {
       width: '100%',
       height: this.props.buttonHeight,
       borderRadius: this.props.buttonHeight,
+      backgroundColor: undefined,
     }
 
     if (this.animatedValue) {

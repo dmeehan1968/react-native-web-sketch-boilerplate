@@ -1,13 +1,13 @@
-import React from 'react'
+// @flow
+import * as React from 'react'
 import { View } from 'react-native'
-import PropTypes from 'prop-types'
 
-const Box = ({children, ...rest}) => (
+type Props = {
+  children?: React.Element<any>,
+}
+
+const Box = ({children, ...rest}: Props) => (
   <View {...rest}>{children}</View>
 )
-
-Box.propTypes = {
-  children: PropTypes.node,
-}
 
 export default Box

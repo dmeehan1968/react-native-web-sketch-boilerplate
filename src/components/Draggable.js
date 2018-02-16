@@ -1,80 +1,87 @@
-import React from 'react'
-import { Animated, PanResponder } from 'react-native'
-import PropTypes from 'prop-types'
+// @flow
+import * as React from 'react'
+import { Animated, PanResponder, View, StyleSheet } from 'react-native'
 
-export default class Draggable extends React.Component {
+type DragHandler = () => void
+type SpringHandler = () => void
+type ConstraintFunction = (value: number) => number
+type LayoutHandler = (e: View.ViewLayoutEvent) => void
+type ValueChangeHandler = (value: Animated.ValueXY) => void
 
-  static propTypes = {
-    /*
-     * Optional name for the component
-     */
-    name: PropTypes.string,
-    /*
-     * Function to handle when a drag operation starts
-     */
-    onDragStart: PropTypes.func,
-    /*
-     * Function to handle when a drag operation ends
-     */
-    onDragEnd: PropTypes.func,
-    /*
-     * Function to handle when the spring animation ends
-     */
-    onSpringEnd: PropTypes.func,
-    /*
-     * Flag to indicate whether the object should spring back to origin
-     */
-    springBack: PropTypes.bool,
-    /*
-     * Animation options for the spring
-     */
-    springSettings: PropTypes.object,
-    /*
-     * Function to constrain the X axis.  Passed the intended value, returns
-     * the constrained value.
-     */
-    constrainX: PropTypes.func,
-    /*
-     * Function to constrain the Y axis.  Passed the intended value, returns
-     * the constrained value.
-     */
-    constrainY: PropTypes.func,
-    /*
-     * Function to handle the onLayout event, receives a NativeEvent
-     */
-    onLayout: PropTypes.func,
-    /*
-     * Function to receive changes to the X, Y during animation
-     */
-    onValueChange: PropTypes.func,
-    /*
-     * The animated value
-     */
-    animatedValue: PropTypes.instanceOf(Animated.ValueXY),
-    /*
-     * Optional styles for the container
-     */
-    style: PropTypes.oneOfType([
-      PropTypes.object,
-      PropTypes.number,
-    ]),
-    children: PropTypes.node,
-  }
+type Props = {
+  /*
+   * Optional name for the component
+   */
+  name?: string,
+  /*
+   * Function to handle when a drag operation starts
+   */
+  onDragStart: DragHandler,
+  /*
+   * Function to handle when a drag operation ends
+   */
+  onDragEnd: DragHandler,
+  /*
+   * Function to handle when the spring animation ends
+   */
+  onSpringEnd: SpringHandler,
+  /*
+   * Flag to indicate whether the object should spring back to origin
+   */
+  springBack: boolean,
+  /*
+   * Animation options for the spring
+   */
+  springConfig: Animated.SpringAnimationConfig,
+  /*
+   * Function to constrain the X axis.  Passed the intended value, returns
+   * the constrained value.
+   */
+  constrainX: ConstraintFunction,
+  /*
+   * Function to constrain the Y axis.  Passed the intended value, returns
+   * the constrained value.
+   */
+  constrainY: ConstraintFunction,
+  /*
+   * Function to handle the onLayout event, receives a NativeEvent
+   */
+  onLayout: LayoutHandler,
+  /*
+   * Function to receive changes to the X, Y during animation
+   */
+  onValueChange: ValueChangeHandler,
+  /*
+   * The animated value
+   */
+  animatedValue?: Animated.ValueXY,
+  /*
+   * Optional styles for the container
+   */
+  style?: StyleSheet.StyleProp,
+
+  children?: React.Element<any>,
+}
+
+export default class Draggable extends React.Component<Props> {
 
   static defaultProps = {
     name: 'Draggable',
-    onDragStart: () => null,
-    onDragEnd: () => null,
-    onSpringEnd: () => null,
+    onDragStart: () => undefined,
+    onDragEnd: () => undefined,
+    onSpringEnd: () => undefined,
     springBack: false,
-    springSettings: {},
-    constrainX: x => x,
-    constrainY: y => y,
-    onLayout: () => null,
-    onValueChange: () => null
+    springConfig: {},
+    constrainX: (x => x: ConstraintFunction),
+    constrainY: (y => y: ConstraintFunction),
+    onLayout: () => undefined,
+    onValueChange: () => undefined
   }
 
-  constructor(props) {
+  animatedValue: Animated.ValueXY
+  _panResponder: PanResponder
+
+  constructor(props: Props) {
     super(props)
     this.animatedValue = this.props.animatedValue || new Animated.ValueXY()
   }
@@ -114,7 +121,7 @@ export default class Draggable extends React.Component {
         if (this.props.springBack) {
           Animated.spring(this.animatedValue, {
             toValue: 0,
-            ...this.props.springSettings
+            ...this.props.springConfig
           }).start(this.props.onSpringEnd)
         }
       }

@@ -1,8 +1,14 @@
-import React from 'react'
-import { View } from 'react-native'
-import PropTypes from 'prop-types'
+// @flow
+import * as React from 'react'
+import { View, StyleSheet } from 'react-native'
 
-const Draggable = ({name, style, children}) => (
+type Props = {
+  name?: string,
+  style?: StyleSheet.StyleProp,
+  children?: React.Element<any>,
+}
+
+const Draggable = ({name, style, children}: Props) => (
   <View
     name={name}
     style={style}
@@ -10,12 +16,6 @@ const Draggable = ({name, style, children}) => (
     {children}
   </View>
 )
-
-Draggable.propTypes = {
-  name: PropTypes.string,
-  style: PropTypes.object,
-  children: PropTypes.node,
-}
 
 Draggable.defaultProps = {
   name: 'Draggable'

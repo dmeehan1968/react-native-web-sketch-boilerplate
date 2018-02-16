@@ -1,57 +1,61 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+// @flow
+import * as React from 'react'
+import { StyleSheet } from 'react-native'
 
 import FlatList from './FlatList'
 import TodoListItem from './TodoListItem'
 
-import StylePropTypes from '../StylePropTypes'
+type Item = {
+  id: number,
+  title: string
+}
 
-class TodoListItemContainer extends React.PureComponent {
+type ItemPressHandler = (item: Item) => void
+type PressHandler = () => void
 
-  static propTypes = {
-    item: PropTypes.object.isRequired,
-    onPress: PropTypes.func.isRequired,
-  }
+type TodoListItemContainerProps = {
+  item: Item,
+  onPress: ItemPressHandler,
+}
 
-  handleItemPress = () => this.props.onPress(this.props.item)
+class TodoListItemContainer extends React.PureComponent<TodoListItemContainerProps> {
+
+  handlePress: PressHandler = () => this.props.onPress(this.props.item)
 
   render() {
     return (
       <TodoListItem
         {...this.props.item}
-        onPress={this.handleItemPress}
+        onPress={this.handlePress}
       />
     )
   }
 }
 
+type KeyExtractor = (item: Item) => string
+type RenderItem = ({ item: Item }) => React.Element<any>
 
-export default class TodoList extends React.PureComponent {
+type TodoListProps = {
+  /*
+   * Array of todo list items
+   */
+  items: Array<Item>,
+  /*
+   * Function to handle when an item is pressed, receives the item as an
+   * argument
+   */
+  onItemPress: ItemPressHandler,
+  /*
+   * Optional styles to be passed to the TodoList
+   */
+  style: StyleSheet.StyleProp,
+}
 
-  static propTypes = {
-    /*
-     * Array of todo list items
-     */
-    items: PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.number.isRequired,
-        title: PropTypes.string.isRequired,
-      }).isRequired,
-    ),
-    /*
-     * Function to handle when an item is pressed, receives the item as an
-     * argument
-     */
-    onItemPress: PropTypes.func,
-    /*
-     * Optional styles to be passed to the TodoList
-     */
-    style: StylePropTypes({}),
-  }
+export default class TodoList extends React.PureComponent<TodoListProps> {
 
-  keyExtractor = item => item.id.toString()
+  keyExtractor: KeyExtractor = (item: Item): string => item.id.toString()
 
-  renderItem = ({item}) => (
+  renderItem: RenderItem = ({item}) => (
     <TodoListItemContainer
       item={item}
       onPress={this.props.onItemPress}

@@ -1,12 +1,13 @@
 {
-  "plugins": ["babel"],
+  "plugins": ["babel", "flowtype"],
   "parser": "babel-eslint",
-  "extends": ["react-native", "plugin:jest/recommended"],
+  "extends": ["react-native", "plugin:jest/recommended", "plugin:flowtype/recommended"],
   "rules": {
     "react/no-multi-comp": "warn",
     "no-invalid-this": "off",
     "babel/no-invalid-this": "error",
     "no-console": "warn",
     "semi": ["error", "never"],
+    "import/no-namespace": "off",
     }
 }

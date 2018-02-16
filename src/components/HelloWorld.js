@@ -1,9 +1,14 @@
+//@flow
 import React from 'react'
 import { Text, View, StyleSheet } from 'react-native'
 
-export default class HelloWorld extends React.Component {
+type Props = {}
 
-  get styles() {
+export default class HelloWorld extends React.Component<Props> {
+
+  _styles: StyleSheet.Styles = null
+
+  get styles(): StyleSheet.Styles {
     return this._styles || (this._styles = StyleSheet.create({
       view: {
         flex: 1,
@@ -15,7 +20,7 @@ export default class HelloWorld extends React.Component {
       }
     }))
   }
-  
+
   render() {
     return (
       <View style={this.styles.view}>
