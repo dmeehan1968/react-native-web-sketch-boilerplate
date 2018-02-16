@@ -1,6 +1,6 @@
-import React from 'react'
+// @flow
+import * as React from 'react'
 import { render, Artboard, Document, Page, StyleSheet } from 'react-sketchapp'
-import PropTypes from 'prop-types'
 
 import HelloWorld from './src/components/HelloWorld'
 import { LockScreen } from './src/components/LockScreen'
@@ -8,15 +8,15 @@ import DraggableBox from './src/components/DraggableBox'
 
 import designSystem from './src/components/designSystem'
 
-class Device extends React.Component {
+type DeviceProps = {
+  name: string,
+  width: number,
+  height: number,
+  landscape: boolean,
+  children?: React.Element<any>,
+}
 
-  static propTypes = {
-    name: PropTypes.string,
-    width: PropTypes.number,
-    height: PropTypes.number,
-    landscape: PropTypes.bool,
-    children: PropTypes.node,
-  }
+class Device extends React.Component<DeviceProps> {
 
   static defaultProps = {
     name: 'Desktop',
@@ -24,6 +24,8 @@ class Device extends React.Component {
     height: 600,
     landscape: false
   }
+
+  _styles: StyleSheet.Styles
 
   get styles() {
     return this._styles || (this._styles = StyleSheet.create({
@@ -48,49 +50,34 @@ class Device extends React.Component {
   }
 }
 
-const IPhoneSE = ({landscape, children}) => (
+type DeviceContainerProps = {
+  landscape?: boolean,
+  children?: React.Element<any>,
+}
+
+const IPhoneSE = ({landscape, children}: DeviceContainerProps) => (
   <Device name="iPhone SE" width={300} height={568} landscape={landscape}>
     {children}
   </Device>
 )
 
-IPhoneSE.propTypes = {
-  landscape: PropTypes.bool,
-  children: PropTypes.node,
-}
-
-const IPhoneX = ({landscape, children}) => (
+const IPhoneX = ({landscape, children}: DeviceContainerProps) => (
   <Device name="iPhone X" width={375} height={812} landscape={landscape}>
     {children}
   </Device>
 )
 
-IPhoneX.propTypes = {
-  landscape: PropTypes.bool,
-  children: PropTypes.node,
-}
-
-const IPad = ({landscape, children}) => (
+const IPad = ({landscape, children}: DeviceContainerProps) => (
   <Device name="iPad" width={768} height={1024} landscape={landscape}>
     {children}
   </Device>
 )
 
-IPad.propTypes = {
-  landscape: PropTypes.bool,
-  children: PropTypes.node,
-}
-
-const SmallDesktop = ({landscape, children}) => (
+const SmallDesktop = ({landscape, children}: DeviceContainerProps) => (
   <Device name="Small Desktop" width={800} height={600} landscape={landscape}>
     {children}
   </Device>
 )
-
-SmallDesktop.propTypes = {
-  landscape: PropTypes.bool,
-  children: PropTypes.node,
-}
 
 const styles = StyleSheet.create({
   artboard: {
@@ -100,7 +87,13 @@ const styles = StyleSheet.create({
   }
 })
 
-const Spread = ({name, style, children, ...otherProps}) => (
+type SpreadProps = {
+  name?: string,
+  style?: StyleSheet.StyleProp,
+  children: React.Element<any>,
+}
+
+const Spread = ({name, style, children, ...otherProps}: SpreadProps) => (
   <Artboard
     name={name}
     style={[styles.artboard, style]}
@@ -112,21 +105,6 @@ const Spread = ({name, style, children, ...otherProps}) => (
     <SmallDesktop>{React.cloneElement(children)}</SmallDesktop>
   </Artboard>
 )
-
-Spread.propTypes = {
-  name: PropTypes.string,
-  style: PropTypes.oneOfType([
-      PropTypes.shape({}),
-      PropTypes.arrayOf(
-        PropTypes.oneOfType([
-          PropTypes.shape({}),
-          PropTypes.number,
-        ])
-      ),
-      PropTypes.number,
-    ]),
-  children: PropTypes.node,
-}
 
 export default () => {
   render((
