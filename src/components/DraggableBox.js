@@ -44,7 +44,7 @@ export default class DraggableBox extends React.Component {
           onDragEnd={this.handleDragEnd}
           onSpringEnd={this.handleSpringEnd}
           springBack
-          springSettings={{ speed: 12 }}
+          springConfig={{ speed: 12 }}
         >
           <Box
             style={[styles.box, {
