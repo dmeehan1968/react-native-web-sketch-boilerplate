@@ -60,7 +60,7 @@ type Props = {
    */
   style?: StyleSheet.StyleProp,
 
-  children?: React.Node,
+  children?: React.Element<any>,
 }
 
 export default class Draggable extends React.Component<Props> {

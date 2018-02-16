@@ -33,7 +33,7 @@ class TodoListItemContainer extends React.PureComponent<TodoListItemContainerPro
 }
 
 type KeyExtractor = (item: Item) => string
-type RenderItem = ({ item: Item }) => React.Node
+type RenderItem = ({ item: Item }) => React.Element<any>
 
 type TodoListProps = {
   /*

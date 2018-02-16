@@ -5,7 +5,7 @@ import { View, StyleSheet } from 'react-native'
 type Props = {
   name?: string,
   style?: StyleSheet.StyleProp,
-  children?: React.Node,
+  children?: React.Element<any>,
 }
 
 const Draggable = ({name, style, children}: Props) => (

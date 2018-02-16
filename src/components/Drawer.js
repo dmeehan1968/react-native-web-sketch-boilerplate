@@ -67,7 +67,7 @@ type Props = {
    * Optional styles to pass to the container
    */
   style?: StyleSheet.StyleProp,
-  children?: React.Node,
+  children?: React.Element<any>,
 }
 
 type State = {
