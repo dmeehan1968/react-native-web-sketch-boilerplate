@@ -1,5 +1,10 @@
+// @flow
 
-const colors = {
+type ColorName = string
+type ColorValue = string
+type Colors = { [ColorName]: ColorValue }
+
+const colors: Colors = {
   selected: '#aaa',
   deselected: 'transparent',
   separator: '#eee',
