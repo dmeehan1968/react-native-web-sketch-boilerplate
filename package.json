@@ -60,6 +60,7 @@
   "lint-staged": {
     "*.js": [
       "eslint --config ./.eslintrc.precommit",
+      "npm run flow",
       "npm run test:native -- --bail --findRelatedTests",
       "npm run test:web -- --bail --findRelatedTests"
     ]
