@@ -18,6 +18,7 @@ components that can targets all platforms.
 * [Jest](https://facebook.github.io/jest/)
 * [Enzyme](http://airbnb.io/enzyme/)
 * [ESLint](https://eslint.org)
+* [Flow](http://flow.org)
 
 ## Code Standard
 
@@ -87,6 +88,10 @@ The following scripts are provided:
 * ```npm run lint```
 
   Runs eslint on all the entire project
+
+* ```npm run flow```
+
+  Runs Flow type checking on the entire project
 
 * ```npm run precommit```
 
