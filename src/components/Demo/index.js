@@ -18,7 +18,6 @@ const styles = StyleSheet.create({
     alignItems: 'stretch',
   },
   splitNavigator: {
-    flex: 1
   },
   textWrapView: {
     flex: 1,
@@ -72,6 +71,7 @@ class DemoApp extends React.Component<Props> {
     const selected = this.props.selected || (this.navigator && !this.navigator.isStacked ? { key: 0 } : null)
     return (
       <SafeAreaView
+        name="SafeAreaView"
         style={styles.safeArea}
       >
 

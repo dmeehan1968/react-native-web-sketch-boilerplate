@@ -4,8 +4,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-
-const appDirectory = path.resolve(__dirname, '../');
+const appDirectory = require('./webpack.defines.js').appDirectory
 
 // This is needed for webpack to compile JavaScript.
 // Many OSS React Native packages are not compiled to ES5 before being
@@ -28,6 +27,7 @@ const babelLoaderConfiguration = {
       // This aliases 'react-native' to 'react-native-web' and includes only
       // the modules needed by the app.
       plugins: [
+        'react-hot-loader/babel',
         'react-native-web',
         'transform-function-bind'],
       // The 'react-native' preset is recommended to match React Native's packager
@@ -61,11 +61,6 @@ module.exports = {
 
   // ...the rest of your config
 
-  devtool: 'eval-source-map',
-
-  devServer: {
-    contentBase: path.resolve(appDirectory, 'dist')
-  },
 
   module: {
     rules: [
@@ -85,7 +80,8 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, 'index.html'),
       filename: 'index.html'
-    })
+    }),
+    new webpack.NamedModulesPlugin(),
   ],
 
   resolve: {

@@ -1,4 +1,4 @@
-/web/webpack.config.js
+/web/**
 /test/**
 /webpack.skpm.config.js
 /*.sketchplugin/**

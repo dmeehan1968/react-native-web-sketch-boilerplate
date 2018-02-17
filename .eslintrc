@@ -9,5 +9,6 @@
     "no-console": "warn",
     "semi": ["error", "never"],
     "import/no-namespace": "off",
+    "import/no-nodejs-modules": "off",
     }
 }
