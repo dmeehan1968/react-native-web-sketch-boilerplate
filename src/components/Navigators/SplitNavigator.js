@@ -20,21 +20,20 @@ const styles = StyleSheet.create({
     paddingRight: 10,
   },
   master: {
+    flex: 1,
     borderRightWidth: 1,
     borderStyle: 'solid',
     borderRightColor: designSystem.colors.separator,
     backgroundColor: designSystem.colors.backgroundColor,
-    height: '100%',
-    width: '100%',
   },
   masterSplit: {
     paddingRight: 10,
     marginRight: 10,
-    width: '33%',
+    flexGrow: 1,
   },
   detail: {
     flex: 1,
-    flexGrow: 1
+    flexGrow: 3
   },
 
 })
