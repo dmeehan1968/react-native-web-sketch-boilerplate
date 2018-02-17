@@ -116,7 +116,8 @@ identification of staged files and run the appropriate commands.
 
 * Pre Commit
 
-  Before committing, linting and tests are run on the currently staged files.
+  Before committing, flowtype, linting and tests are run on the currently
+  staged files.
 
 
 ## Demos
