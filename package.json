@@ -59,7 +59,7 @@
     "test:native": "BABEL_ENV=test:native jest --config=./test/jest.config.native.js",
     "webpack": "webpack-dev-server --config ./web/webpack.dev-server.js --open --inline --hot",
     "webpack:build": "webpack --config ./web/webpack.dev-server.js",
-    "web": "export PORT=3000 && babel-node server/index.js",
+    "express": "export PORT=3000 && babel-node server/index.js",
     "lint": "eslint .",
     "precommit": "lint-staged",
     "flow": "flow check"

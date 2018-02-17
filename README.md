@@ -81,9 +81,17 @@ The following scripts are provided:
 
   Builds for Sketch and renders once, doesn't watch.
 
-* ```npm run web:build```
+* ```npm run webpack:build```
 
   Build only for webpack
+
+* ```npm run webpack```
+
+  Run webpack dev server, open in browser, hot module replacement enabled
+
+* ```npm run express```
+
+  Run express server with hot module replacement enabled, uses localhost:3000
 
 * ```npm run lint```
 
