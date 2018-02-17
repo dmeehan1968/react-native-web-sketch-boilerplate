@@ -5,7 +5,7 @@
 		{
 			"name": "react-native-web-sketch-boilerplate",
 			"identifier": "main",
-			"script": "../index.sketch.js"
+			"script": "./index.sketch.js"
 		}
 	],
 	"menu": {
