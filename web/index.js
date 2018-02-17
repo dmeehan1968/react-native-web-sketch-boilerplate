@@ -3,7 +3,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { AppContainer } from 'react-hot-loader'
 
-import DemoApp from '../demo/Demo'
+import RootComponent from '../src'
 
 const render = Component => {
   const element = document.getElementById('app')
@@ -16,11 +16,11 @@ const render = Component => {
   }
 }
 
-render(DemoApp)
+render(RootComponent)
 
 if (module.hot) {
-  module.hot.accept('../demo/Demo', () => {
-    const NextComponent = require('../demo/Demo').default
-    render(NextComponent)
+  module.hot.accept('../src', () => {
+    const NextRootComponent = require('../src').default
+    render(NextRootComponent)
   })
 }
