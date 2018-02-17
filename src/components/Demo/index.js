@@ -18,7 +18,6 @@ const styles = StyleSheet.create({
     alignItems: 'stretch',
   },
   splitNavigator: {
-    flex: 1
   },
   textWrapView: {
     flex: 1,
