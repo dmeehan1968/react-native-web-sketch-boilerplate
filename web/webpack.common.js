@@ -15,7 +15,7 @@ const babelLoaderConfiguration = {
   test: /\.js$/,
   // Add every directory that needs to be compiled by Babel during the build.
   include: [
-    path.resolve(appDirectory, 'index.js'),
+    path.resolve(appDirectory, 'web/index.js'),
     path.resolve(appDirectory, 'src'),
     // path.resolve(appDirectory, 'node_modules/react-native-uncompiled')
   ],
@@ -51,7 +51,7 @@ const imageLoaderConfiguration = {
 
 module.exports = {
   // your web-specific entry file
-  entry: path.resolve(appDirectory, 'index.js'),
+  entry: path.resolve(appDirectory, 'web/index.js'),
 
   // configures where the build ends up
   output: {
