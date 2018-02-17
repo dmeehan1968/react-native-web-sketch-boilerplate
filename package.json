@@ -62,11 +62,12 @@
     "web": "export PORT=3000 && babel-node server/index.js",
     "lint": "eslint .",
     "precommit": "lint-staged",
-    "flow": "flow"
+    "flow": "flow check"
   },
   "lint-staged": {
     "*.js": [
       "eslint --config ./.eslintrc.precommit",
+      "npm run flow",
       "npm run test:native -- --bail --findRelatedTests",
       "npm run test:web -- --bail --findRelatedTests"
     ]
