@@ -2,11 +2,10 @@
 import * as React from 'react'
 import { render, Artboard, Document, Page, StyleSheet } from 'react-sketchapp'
 
-import HelloWorld from '../src/components/HelloWorld'
-import { LockScreen } from '../src/components/LockScreen'
-import DraggableBox from '../src/components/DraggableBox'
-
-import designSystem from '../src/components/designSystem'
+import HelloWorld from '../demo/HelloWorld'
+import { LockScreen } from '../demo/LockScreen'
+import DraggableBox from '../demo/DraggableBox'
+import designSystem from '../demo/designSystem'
 
 type DeviceProps = {
   name: string,

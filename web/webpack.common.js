@@ -17,6 +17,7 @@ const babelLoaderConfiguration = {
   include: [
     path.resolve(appDirectory, 'web/index.js'),
     path.resolve(appDirectory, 'src'),
+    path.resolve(appDirectory, 'demo'),
     // path.resolve(appDirectory, 'node_modules/react-native-uncompiled')
   ],
   use: {

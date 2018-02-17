@@ -3,7 +3,7 @@ import React from 'react'
 import { Text, StyleSheet } from 'react-native'
 import { shallow, ShallowWrapper } from 'enzyme'
 
-import HelloWorld from '../../src/components/HelloWorld'
+import HelloWorld from './HelloWorld'
 
 describe('HelloWorld', () => {
 
