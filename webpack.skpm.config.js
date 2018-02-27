@@ -20,7 +20,6 @@ module.exports = function(config) {
       rule.use.options.plugins = (rule.use.options.plugins || []).concat([
         'transform-runtime',
         'transform-class-properties',
-        'transform-function-bind'
       ])
 
       // enable source maps
